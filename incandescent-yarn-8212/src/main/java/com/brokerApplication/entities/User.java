@@ -1,3 +1,4 @@
+
 package com.brokerApplication.entities;
 
 import jakarta.persistence.Column;
