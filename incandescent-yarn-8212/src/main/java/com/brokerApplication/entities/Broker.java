@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,15 +19,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Broker extends User{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer brokerId;
+
 	@NotBlank
 	@NotNull
 	@NotEmpty
 	private String brokerName;
 	private List<Properties> brokerProperties;
-	
+
 }
 	
