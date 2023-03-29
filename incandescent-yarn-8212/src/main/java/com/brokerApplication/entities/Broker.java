@@ -12,19 +12,21 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Broker extends User{
+public class Broker extends User implements Owner{
 
 	@NotBlank
 	@NotNull
 	@NotEmpty
 	private String brokerName;
-	private List<Properties> brokerProperties;
+	private List<Property> brokerProperties;
 
 }
 	

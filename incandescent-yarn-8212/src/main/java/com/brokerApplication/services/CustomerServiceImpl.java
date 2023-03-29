@@ -35,7 +35,7 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
-		Optional<Customer> opt = cr.findById(c.getCustomerId());
+		Optional<Customer> opt = cr.findById(c.getUserId());
 		
 		if(opt.isPresent()) {
 			

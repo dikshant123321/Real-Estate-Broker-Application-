@@ -42,7 +42,7 @@ public class BrokerServicesImpl implements BrokerServices{
 	
 	@Override
 	public Broker editBroker(Broker broker) {
-		Optional<Broker> opt= brokerDao.findById(broker.getBrokerId());
+		Optional<Broker> opt= brokerDao.findById(broker.getUserId());
 		
 		 if(opt.isPresent()) {
 			 brokerDao.save(broker);
