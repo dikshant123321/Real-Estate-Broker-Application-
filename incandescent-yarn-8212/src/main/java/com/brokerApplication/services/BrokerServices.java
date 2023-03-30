@@ -7,9 +7,9 @@ public interface BrokerServices {
 	
 	public Broker addBroker(Broker broker);
 	
-	public Broker viewBroker(Integer brokerId);
+	public Broker viewBrokerById(Integer brokerId);
 	
-	public Broker removeBroker(Integer brokerId);
+	public Broker removeBrokerById(Integer brokerId);
 	
 	public Broker editBroker(Broker broker);
 	

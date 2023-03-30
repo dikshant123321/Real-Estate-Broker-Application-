@@ -1,6 +1,6 @@
 package com.brokerApplication.exceptions;
 
-public class PropertyException extends Exception{
+public class PropertyException extends RuntimeException{
 	
 	public PropertyException() {
 		

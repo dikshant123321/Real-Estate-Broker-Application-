@@ -7,9 +7,10 @@ import com.brokerApplication.exceptions.PropertyException;
 
 public interface PropertyService {
 
-	public Property addProperty(Property property);
+	public Property addProperty(Property property, Integer brokerId);
 	public Property editProperty(Property property) throws PropertyException;
 	public List<Property> ListAllPropertys()throws PropertyException;
 	public Property viewPropertyById(Integer propertyId)throws PropertyException;
 	public Property removePropertyById(Integer propertyId)throws PropertyException;
+	
 }
