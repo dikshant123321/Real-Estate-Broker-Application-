@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brokerApplication.entities.Property;
@@ -24,9 +25,10 @@ public class PropertyController {
 	private PropertyService propertyService;
 	
 	@PostMapping("/property")
-	public ResponseEntity<Property> addProperty(@RequestBody Property property ) 
+	public ResponseEntity<Property> addProperty(@RequestParam Integer brokerId,@RequestBody Property property ) 
 	{
-		Property savedProperty=propertyService.addProperty(property);
+		
+		Property savedProperty = propertyService.addProperty(property, brokerId);
 		
 		return new ResponseEntity<Property>(savedProperty,HttpStatus.CREATED);
 		

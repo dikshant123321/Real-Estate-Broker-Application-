@@ -3,11 +3,14 @@ package com.brokerApplication.services;
 import java.util.List;
 
 import com.brokerApplication.entities.Deal;
+import com.brokerApplication.entities.BrokerOffer;
+import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.exceptions.DealException;
 
 public interface DealService {
-	public Deal addDeal(Integer pid,Integer cid)throws DealException;
-	public List<Deal> getAllDeals() throws DealException;
-	public String purchaseDeal(Integer did,Integer bid) throws DealException;
-	public String AbandonedDeal(Integer did,Integer bid) throws DealException;
+	public Deal addDealOfferFromCustomer(CustomerOffer offer);
+	public List<Deal> getAllDeals();
+	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer);
+	public String approveDeal(BrokerOffer brokerOffer);
+	public String AbandonedDeal(Integer did,Integer bid);
 }
