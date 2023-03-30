@@ -32,7 +32,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 		Optional<LoggedSession> validLoggedSessionOpt =  lsr.findById(existingUser.getUserId());
 		if(validLoggedSessionOpt.isPresent()) throw new LoginException("User already Logged");
 		if(existingUser.getPassword().equals(dto.getPassword())) {
-			String key= generateRandomChars(16);
+	
+			String key= existingUser.getRole()+"."+generateRandomChars(16);
 			LoggedSession currentUserSession = new LoggedSession(existingUser.getUserId(),key,LocalDateTime.now());
 			lsr.save(currentUserSession);
 			return currentUserSession.toString();

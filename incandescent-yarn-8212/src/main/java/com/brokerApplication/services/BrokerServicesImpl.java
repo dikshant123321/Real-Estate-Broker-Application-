@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brokerApplication.entities.Broker;
+import com.brokerApplication.entities.Deal;
+import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.BrokerException;
 import com.brokerApplication.repositorys.BrokerDao;
 
@@ -65,5 +67,21 @@ public class BrokerServicesImpl implements BrokerServices{
 			throw new BrokerException("All broker is registered with us.");
 		else
 			return brokers;
+	}
+
+	@Override
+	public List<Property> listBrokerHandlerProperties(Integer brokerId) {
+		Broker bro=viewBrokerById(brokerId);
+		List<Property> list=bro.getListOfProperties();
+		if(list.isEmpty()) new BrokerException("Hello "+bro.getBrokerName()+"/n"+" .. No properties where listed");
+		return list;
+	}
+	
+	@Override
+	public List<Deal> listBrokerHandlerDeals(Integer brokerId) {
+		Broker bro=viewBrokerById(brokerId);
+		List<Deal> list=bro.getListOfDeals();
+		if(list.isEmpty()) new BrokerException("Hello "+bro.getBrokerName()+"/n"+" .. No Deal Listed ");
+		return list;
 	}
 }

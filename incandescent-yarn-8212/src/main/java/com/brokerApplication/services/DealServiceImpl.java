@@ -1,6 +1,5 @@
 package com.brokerApplication.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -11,14 +10,14 @@ import org.springframework.stereotype.Service;
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.entities.BrokerOffer;
 import com.brokerApplication.entities.Customer;
+import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.DealStatus;
-import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.DealException;
 import com.brokerApplication.repositorys.BrokerDao;
+import com.brokerApplication.repositorys.CustomerRepository;
 import com.brokerApplication.repositorys.DealRepo;
-import com.brokerApplication.repositorys.PropertyRepository;
 
 
 @Service
@@ -36,6 +35,12 @@ public class DealServiceImpl implements DealService{
 	@Autowired
 	BrokerServices bs;
 	
+	@Autowired
+	BrokerDao br;
+	
+	@Autowired
+	CustomerRepository cr;
+	
 	
 	
 	/**
@@ -51,7 +56,7 @@ public class DealServiceImpl implements DealService{
 	public Deal addDealOfferFromCustomer(CustomerOffer customerOffer) {
 		
 		Broker broker = bs.viewBrokerById(customerOffer.getBrokerId());
-		Customer customer = cs.viewCustomerById(customerOffer.getPropertyId()).getBody();
+		Customer customer = cs.viewCustomerById(customerOffer.getPropertyId());
 		Property property = null;
 		
 		List<Property> listOfProperties = broker.getListOfProperties();
@@ -109,7 +114,7 @@ public class DealServiceImpl implements DealService{
 	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer) {
 		
 		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
-		Customer customer = cs.viewCustomerById(brokerOffer.getPropertyId()).getBody();
+		Customer customer = cs.viewCustomerById(brokerOffer.getPropertyId());
 		Property property = null;
 		
 		List<Property> listOfProperties = broker.getListOfProperties();
@@ -153,7 +158,31 @@ public class DealServiceImpl implements DealService{
 	}
 
 	@Override
-	public String approveDeal(BrokerOffer brokerOffer) {
+	public String approveDeal(BrokerOffer brokerOffer)throws  DealException{
+		Deal deal = getDealbyID(brokerOffer.getDealId());
+
+		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
+		if(!deal.getBroker().equals(broker)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Broker with Id: "+broker.getUserId());
+				
+		Customer customer = cs.viewCustomerById(brokerOffer.getCustomerId());
+		if(!deal.getCustomer().equals(customer)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Customer with Id: "+customer.getUserId());
+				
+		Property property = ps.viewPropertyById(brokerOffer.getPropertyId());
+		if(!deal.getProperty().equals(property)) throw new DealException("No Deal with Id: "+deal.getDealid()+" contains Property with Id: "+property.getPropertyId());
+		
+
+		
+		if(!deal.isBrokerAgree()) throw new DealException("you cant approve");
+		if(!deal.isCustomerAgree()) throw new DealException("you cant approve");
+		
+		
+		property.setCustomer(customer);
+		customer.getListOfProperties().add(property);
+		
+		cr.save(customer);
+		
+		return "Deal Done";
+		
 //		Optional<Deal> op1=dr.findById(did);
 //		
 //		if(!op1.isPresent()) throw new DealException("chose proper deal");
@@ -167,17 +196,26 @@ public class DealServiceImpl implements DealService{
 //		deal.setDealStatus(true);
 //		op1.get();
 //		
-		return "Deal Done";
+		
 	}
 	
 	@Override
 	public String AbandonedDeal(Integer did,Integer bid) throws DealException {
-//		Optional<Deal> op1=dr.findById(did);
-//		Optional<Broker> op2=br.findById(bid);
-//		if(!op1.isPresent()) throw DealException("choose proper deal");
-//		if(!op1.get().getProperty().getBroker().getBroId()==op2.get().getBroId())throw DealException("choose correct property ");
-//		dr.delete(op1.get());
+		Optional<Deal> op1=dr.findById(did);
+		Optional<Broker> op2=br.findById(bid);
+		if(!op1.isPresent()) throw new DealException("choose proper deal");
+		if(!op2.isPresent()) throw new DealException("choose proper deal");
+		
+		if(!(op1.get().getBroker()==op2.get()))throw new DealException("choose correct property ");
+		dr.delete(op1.get());
 		return "Deal cancelled";
+	}
+
+	@Override
+	public Deal getDealbyID(Integer dealid) {
+		Optional<Deal> op1=dr.findById(dealid);
+		if (!op1.isPresent()) throw new DealException("provide valid dealid");
+		return op1.get();
 	}
 
 	

@@ -1,7 +1,10 @@
 package com.brokerApplication.services;
 
 import java.util.List;
+
 import com.brokerApplication.entities.Broker;
+import com.brokerApplication.entities.Deal;
+import com.brokerApplication.entities.Property;
 
 public interface BrokerServices {
 	
@@ -14,4 +17,8 @@ public interface BrokerServices {
 	public Broker editBroker(Broker broker);
 	
 	public List<Broker> listAllBrokers();
+	
+	public List<Property> listBrokerHandlerProperties(Integer brokerId);
+	
+	public List<Deal> listBrokerHandlerDeals(Integer brokerId);
 }

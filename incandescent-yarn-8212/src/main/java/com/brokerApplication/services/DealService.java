@@ -11,6 +11,7 @@ public interface DealService {
 	public Deal addDealOfferFromCustomer(CustomerOffer offer);
 	public List<Deal> getAllDeals();
 	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer);
-	public String approveDeal(BrokerOffer brokerOffer);
-	public String AbandonedDeal(Integer did,Integer bid);
+	public String approveDeal(BrokerOffer brokerOffer)throws  DealException;
+	public String AbandonedDeal(Integer did,Integer bid)throws  DealException;
+	public Deal getDealbyID(Integer dealid);
 }

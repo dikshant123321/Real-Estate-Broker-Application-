@@ -58,4 +58,12 @@ public class Deal {
 	@JoinColumn(name = "broker")  // added
 	private Broker broker;
 	
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	private boolean isCustomerAgree;
+	@JsonProperty(access = Access.READ_ONLY)
+	private boolean isBrokerAgree;
+	
+	
+	
 }

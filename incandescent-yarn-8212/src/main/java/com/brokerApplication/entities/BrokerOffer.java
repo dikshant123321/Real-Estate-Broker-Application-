@@ -1,5 +1,8 @@
 package com.brokerApplication.entities;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,5 +29,7 @@ public class BrokerOffer {
 	
 	@NotNull(message = "dealId cannot be Null.")
 	private Integer dealId;
+	
+
 	
 }
