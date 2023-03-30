@@ -61,9 +61,9 @@ public class BrokerServicesImpl implements BrokerServices{
 	@Override
 	public List<Broker> listAllBrokers(){
 		List<Broker> brokers = brokerDao.findAll();
-		if(brokers.size()==0)
-			throw new BrokerException("All broker is registered with us.");
-		else
+//		if(brokers.size()==0)
+//			throw new BrokerException("All broker is registered with us.");
+//		else
 			return brokers;
 	}
 }
