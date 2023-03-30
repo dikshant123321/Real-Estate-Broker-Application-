@@ -3,12 +3,17 @@ package com.brokerApplication.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.exceptions.BrokerException;
 import com.brokerApplication.repositorys.BrokerDao;
 
+@Service
 public class BrokerServicesImpl implements BrokerServices{
-
+	
+	@Autowired
 	private BrokerDao brokerDao;
 	
 	@Override
@@ -18,7 +23,7 @@ public class BrokerServicesImpl implements BrokerServices{
 	}
 	
 	@Override
-	public Broker viewBroker(Integer brokerId) {
+	public Broker viewBrokerById(Integer brokerId) {
 		Optional<Broker> opt= brokerDao.findById(brokerId);
 		
 		if(opt.isPresent()) {
@@ -30,7 +35,7 @@ public class BrokerServicesImpl implements BrokerServices{
 	}
 	
 	@Override
-	public Broker removeBroker(Integer brokerId) {
+	public Broker removeBrokerById(Integer brokerId) {
 		Optional<Broker> opt= brokerDao.findById(brokerId);
 		if(opt.isPresent()) {
 			brokerDao.delete(opt.get());

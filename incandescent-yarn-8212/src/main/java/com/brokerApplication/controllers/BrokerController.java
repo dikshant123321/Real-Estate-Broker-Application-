@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.services.BrokerServices;
 
+@RestController
 public class BrokerController {
 	
 	@Autowired
 	private BrokerServices brokerServices;
+	
 	private List<Broker> brokers= new ArrayList<>();
 	
 	@PostMapping("/brokers")
@@ -38,13 +41,13 @@ public class BrokerController {
 	
 	@GetMapping("/brokers/{id}")
 	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer id){
-		Broker broker = brokerServices.viewBroker(id);
+		Broker broker = brokerServices.viewBrokerById(id);
 		return new ResponseEntity<>(broker,HttpStatus.FOUND);
 	}
 	
 	@DeleteMapping("/brokers/{id}")
 	public ResponseEntity<Broker> deleteBrokerByIdHandler(@PathVariable Integer id){
-		Broker broker = brokerServices.removeBroker(id);
+		Broker broker = brokerServices.removeBrokerById(id);
 		return new ResponseEntity<>(broker,HttpStatus.OK);
 	}
 	
