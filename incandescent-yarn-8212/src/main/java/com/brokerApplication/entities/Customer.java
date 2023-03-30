@@ -2,9 +2,8 @@ package com.brokerApplication.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -17,10 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Customer extends User implements Owner{
+public class Customer extends User{
 
 	 private String CustomerName;
-	 @OneToMany(mappedBy = p)
+	 @OneToMany(cascade = CascadeType.ALL)
 	 private List<Property> listOfProperties;
 	 
 	 private List<Deal> listOfDeals;
