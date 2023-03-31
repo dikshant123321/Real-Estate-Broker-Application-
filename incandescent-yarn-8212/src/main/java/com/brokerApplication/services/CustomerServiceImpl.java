@@ -213,8 +213,6 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		return deal;
 
-		
-		return c.getListOfDeals();
 	}	
 	
 }

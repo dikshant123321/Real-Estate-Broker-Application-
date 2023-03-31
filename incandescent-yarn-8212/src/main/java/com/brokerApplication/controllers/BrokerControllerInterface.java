@@ -30,8 +30,8 @@ public interface BrokerControllerInterface {
 	//new fun
 	
 	
-	public ResponseEntity<String> acceptDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException;
-	public ResponseEntity<String> rejectDeal(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@PathVariable Integer dealid)throws AuthorizationException;
+	public ResponseEntity<Deal> acceptDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException;
+	public ResponseEntity<Deal> rejectDeal(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@PathVariable Integer dealid)throws AuthorizationException;
 	
-
+	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer id,@RequestHeader("Auth") String key) throws AuthorizationException;
 }

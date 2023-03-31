@@ -12,12 +12,9 @@ import com.brokerApplication.entities.Customer;
 import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.DealStatus;
-
 import com.brokerApplication.entities.DealType;
-import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.DealException;
-
 import com.brokerApplication.repositorys.DealRepo;
 
 
@@ -38,9 +35,9 @@ public class DealServiceImpl implements DealService{
 	
 
 	@Override
-	public Deal getDealById(Integer dealid) {
+	public Deal getDealbyID(Integer dealid) {
 		
-		return dr.findById(id).orElseThrow(()-> new DealException("No Deal is available with id: "+id));
+		return dr.findById(dealid).orElseThrow(()-> new DealException("No Deal is available with id: "+dealid));
 		
 	}
 
@@ -118,7 +115,7 @@ public class DealServiceImpl implements DealService{
 	@Override
 	public Deal editDealOfferFromCustomerByDealId(Integer dealId, CustomerOffer customerOffer) {
 		
-		Deal deal = getDealById(dealId);
+		Deal deal = getDealbyID(dealId);
 		if(deal.getDealStatus()!=DealStatus.PENDING) throw new DealException("The expected status for the Deal was to be: PENDING but instead found "+deal.getDealStatus()+".");
 		
 		Customer customer = cs.viewCustomerById(customerOffer.getCustomerId());
@@ -219,9 +216,9 @@ public class DealServiceImpl implements DealService{
 	
 	
 	@Override
-	public String approveDeal(BrokerOffer brokerOffer)throws  DealException{
+	public Deal approveDeal(BrokerOffer brokerOffer)throws  DealException{
 	
-		Deal deal = getDealById(brokerOffer.getDealId());
+		Deal deal = getDealbyID(brokerOffer.getDealId());
 		if(deal.getDealStatus()!=DealStatus.PENDING) throw new DealException("The expected status for the Deal was to be: PENDING but instead found "+deal.getDealStatus()+".");
 		
 		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
@@ -251,7 +248,7 @@ public class DealServiceImpl implements DealService{
 	
 	@Override
 	public Deal AbandonedDeal(Integer dealId) throws DealException {
-		Deal deal = getDealById(dealId);
+		Deal deal = getDealbyID(dealId);
 		if(deal.getDealStatus()!=DealStatus.PENDING) throw new DealException("The expected status for the Deal was to be: PENDING but instead found "+deal.getDealStatus()+".");
 		
 		Broker broker = deal.getBroker();

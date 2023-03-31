@@ -82,7 +82,8 @@ public class BrokerServicesImpl implements BrokerServices{
 		List<Deal> list=bro.getListOfDeals();
 		if(list.isEmpty()) throw new BrokerException("Hello "+bro.getBrokerName()+"/n"+" .. No Deal Listed ");
 		return list;
-
+	}
+	
 	public List<Property> getListOfPropertiesById(Integer brokerId) {
 		
 		Broker bro=viewBrokerById(brokerId);

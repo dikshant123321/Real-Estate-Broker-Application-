@@ -13,13 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.entities.BrokerOffer;
-import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.AuthorizationException;
@@ -60,14 +57,12 @@ public class BrokerController implements BrokerControllerInterface {
 	@PostMapping("/brokers/properties/{brokerid}")
 	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@RequestBody Property property) throws AuthorizationException {
 		as.Auth(brokerid, key);	
-		
 		return null;
 	}
-	
 	@GetMapping("/brokers/properties/{brokerid}")
 	public ResponseEntity<List<Property>> brokerHandlerProperties(@PathVariable Integer brokerid,@RequestHeader("Auth") String key)throws AuthorizationException{
 		as.Auth(brokerid, key);	
-		return new ResponseEntity<List<Property>>(brokerServices.listBrokerHandlerProperties(brokerid),HttpStatus.OK);
+		return new ResponseEntity<List<Property>>(brokerServices.getListOfPropertiesById(brokerid),HttpStatus.OK);
 	}
 	@GetMapping("/brokers/deals/{brokerid}")
 	public ResponseEntity<List<Deal>> brokerHandlerDeals(@PathVariable Integer brokerid,@RequestHeader("Auth") String key) throws AuthorizationException {
@@ -77,21 +72,23 @@ public class BrokerController implements BrokerControllerInterface {
 
 	@PostMapping("/brokers/deals/")
 	public ResponseEntity<Deal> negotiateDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
+		as.Auth(brokerOffer.getBrokerId(),key);
 		return new ResponseEntity<Deal>(ds.setDealOfferFromBroker(brokerOffer),HttpStatus.OK);
 	}
 	@PostMapping("/brokers/deals/accept")
-	public ResponseEntity<String> acceptDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
+	public ResponseEntity<Deal> acceptDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
 		as.Auth(brokerOffer.getBrokerId(), key);	
-		return new ResponseEntity<String>(ds.approveDeal(brokerOffer),HttpStatus.ACCEPTED);
+		return new ResponseEntity<Deal>(ds.approveDeal(brokerOffer),HttpStatus.ACCEPTED);
 	}
 	@PostMapping("/brokers/deals/reject")
-	public ResponseEntity<String> rejectDeal(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@PathVariable Integer dealid)throws AuthorizationException {
-		// TODO Auto-generated method stub
-		return new ResponseEntity<String>(ds.AbandonedDeal(dealid,brokerid),HttpStatus.OK);
+	public ResponseEntity<Deal> rejectDeal(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@PathVariable Integer dealid)throws AuthorizationException {
+		as.Auth(brokerid, key);	
+		return new ResponseEntity<Deal>(ds.AbandonedDeal(dealid),HttpStatus.OK);
 	}
 	
 	@GetMapping("/brokers/{id}")
-	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer id){
+	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer id,@RequestHeader("Auth") String key) throws AuthorizationException{
+		as.Auth(id, key);	
 		Broker broker = brokerServices.viewBrokerById(id);
 		return new ResponseEntity<>(broker,HttpStatus.FOUND);
 	}
