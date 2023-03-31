@@ -1,5 +1,5 @@
-package com.brokerApplication.entities;
-
-public class CustomerNotification {
-
-}
+//package com.brokerApplication.entities;
+//
+//public class CustomerNotification {
+//
+//}
