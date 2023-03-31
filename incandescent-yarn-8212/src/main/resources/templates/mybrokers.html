@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf,org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>EstateBrokers</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	</head>
+	<body style="background-color: teal;">
+		<div style="width: 100%;text-align: center;background-color: cadetblue;">
+			<img style="border: 30px solid maroon;width: 100%;height: 300px;" src="https://i.ibb.co/nRfVgkY/Estate-Explorer-Logo.png" alt="Estate-Explorer-Logo" border="0">
+		</div>
+		<div class="container">
+			<div class="row">
+				<h1>Brokers With Us</h1>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<a th:href="@{/mybrokers/new}" class="btn btn-primary btn-sm mb-3">Let's Welcome A New Broker</a>
+				</div>
+			</div>
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Broker Id</th>
+				      <th scope="col">Broker Name</th>
+				      <th scope="col">Email</th>
+				      <th scope="col">Mobile</th>
+				      <th scope="col">City</th>
+				      <th scope="col">Properties</th>  
+				      <th scope="col">Actions</th> 
+				    </tr>
+				 </thead> 
+				 <tbody>
+					 <tr th:each="b : ${brokers}">
+						 <td th:text="${b.userId}" style="color: white;font-size: 21px;"></td>
+						 <td th:text="${b.brokerName}" style="color: white;font-size: 21px;"></td>
+						 <td th:text="${b.email}" style="color: white;font-size: 21px;"></td>
+						 <td th:text="${b.mobile}" style="color: white;font-size: 21px;"></td>
+						 <td th:text="${b.city}" style="color: white;font-size: 21px;"></td>
+						 <td th:text="${b.listOfProperties.size()}" style="color: white;font-size: 21px;"></td> 
+						 <td>
+							 <a href="@{/mybrokers/show/{id}(id=${b.userId})}" class="btn btn-primary">
+								 Show Properties
+							 </a>
+							 <a href="@{/mybrokers/edit/{id}(id=${b.userId})}" class="btn btn-success">
+								 Update
+							 </a>
+							 <a href="@{/mybrokers/{id}(id=${b.userId})}" class="btn btn-danger">
+								 Delete
+							 </a>
+						 </td> 
+					 </tr>
+				 </tbody>
+			</table>
+		</div>
+	</body>
+</html>

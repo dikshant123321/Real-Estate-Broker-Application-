@@ -33,7 +33,6 @@ public class Broker extends User{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "broker") 	// added
 	private List<Deal> listOfDeals; 							// added
 	
-	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "broker") 	// added
 	private List<Property> listOfProperties;
 
@@ -42,8 +41,5 @@ public class Broker extends User{
 		super(username, email, mobile, role, city, password);
 		this.brokerName = brokerName;
 	}
-	
-	
-
 }
 	
