@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.entities.BrokerOffer;
 import com.brokerApplication.entities.Customer;
+import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.DealStatus;
+
 import com.brokerApplication.entities.DealType;
 import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.DealException;
+
 import com.brokerApplication.repositorys.DealRepo;
 
 
@@ -33,12 +36,14 @@ public class DealServiceImpl implements DealService{
 	@Autowired
 	BrokerServices bs;
 	
+
 	@Override
-	public Deal getDealById(Integer id) {
+	public Deal getDealById(Integer dealid) {
 		
 		return dr.findById(id).orElseThrow(()-> new DealException("No Deal is available with id: "+id));
 		
 	}
+
 	
 	@Override
 	public List<Deal> getAllDeals() {
@@ -64,7 +69,10 @@ public class DealServiceImpl implements DealService{
 		
 		Broker broker = bs.viewBrokerById(customerOffer.getBrokerId());
 		Customer customer = cs.viewCustomerById(customerOffer.getPropertyId());
+
+		
 		Property property = bs.getBrokerPropertyById(broker.getUserId(), customerOffer.getPropertyId());
+
 		
 		if(!property.getIsAvailable()) throw new DealException("Property is not avaliable for sale or rent.");
 		
@@ -175,8 +183,10 @@ public class DealServiceImpl implements DealService{
 	@Override
 	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer) {
 		
+
 		Deal deal = dr.findById(brokerOffer.getDealId()).orElseThrow(()-> new DealException("No Deal available with Id: "+brokerOffer.getDealId()));
 		if(deal.getDealStatus() != DealStatus.PENDING) throw new DealException("Deal status was expected to be PENDING but found "+deal.getDealStatus());
+
 		
 		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
 		if(!deal.getBroker().equals(broker)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Broker with Id: "+broker.getUserId());
@@ -209,22 +219,8 @@ public class DealServiceImpl implements DealService{
 	
 	
 	@Override
-	public Deal approveDeal(BrokerOffer brokerOffer) {
-//		Optional<Deal> op1=dr.findById(did);
-//		
-//		if(!op1.isPresent()) throw new DealException("chose proper deal");
-//		
-//		Deal deal = op1.get();
-//		Customer cus = deal.getCustomer();
-//		Property prop= deal.getProperty();
-//		
-//		if(!prop.getOwnerId() ==  ().getBroId())throw DealException("choose correct property ");
-//		
-//		deal.setDealStatus(true);
-//		op1.get();
-//		
-//		return "Deal Done";
-		
+	public String approveDeal(BrokerOffer brokerOffer)throws  DealException{
+	
 		Deal deal = getDealById(brokerOffer.getDealId());
 		if(deal.getDealStatus()!=DealStatus.PENDING) throw new DealException("The expected status for the Deal was to be: PENDING but instead found "+deal.getDealStatus()+".");
 		
@@ -255,12 +251,6 @@ public class DealServiceImpl implements DealService{
 	
 	@Override
 	public Deal AbandonedDeal(Integer dealId) throws DealException {
-//		Optional<Deal> op1=dr.findById(did);
-//		Optional<Broker> op2=br.findById(bid);
-//		if(!op1.isPresent()) throw DealException("choose proper deal");
-//		if(!op1.get().getProperty().getBroker().getBroId()==op2.get().getBroId())throw DealException("choose correct property ");
-//		dr.delete(op1.get());
-		
 		Deal deal = getDealById(dealId);
 		if(deal.getDealStatus()!=DealStatus.PENDING) throw new DealException("The expected status for the Deal was to be: PENDING but instead found "+deal.getDealStatus()+".");
 		
@@ -286,8 +276,6 @@ public class DealServiceImpl implements DealService{
 		return deal;
 	}
 
-	
-	
 }
 
 

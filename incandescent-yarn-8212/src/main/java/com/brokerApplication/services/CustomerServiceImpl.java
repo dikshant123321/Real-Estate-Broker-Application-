@@ -21,18 +21,19 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer addCustomer(Customer c) {
-		
+
+
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
 		c = cr.save(c);
 		
 		return c;
-		
+
 	}
 
 	@Override
 	public Customer editCustomer(Customer c) {
-		
+
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
 		Optional<Customer> opt = cr.findById(c.getUserId());
@@ -46,13 +47,13 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 	
 		throw new CustomerException("No such customer is available");
-		
 	}
 
 	@Override
 	public Customer removeCustomer(Integer id) {
-		
-		 Optional<Customer> opt = cr.findById(id);
+
+		Optional<Customer> opt = cr.findById(id);
+
 		
 		 if(opt.isPresent()) {
 			 
@@ -65,7 +66,6 @@ public class CustomerServiceImpl implements CustomerService{
 		 }
 		 
 		 throw new CustomerException("No such customer is available with id: "+id);
-		 
 	}
 
 	@Override
@@ -81,7 +81,6 @@ public class CustomerServiceImpl implements CustomerService{
 		 }
 		 
 		 throw new CustomerException("No such customer is available with id: "+id);
-		 
 	}
 
 	@Override
@@ -107,6 +106,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public List<Deal> viewAllDealsByCustomerId(Integer id) {
+
 
 		Customer c = viewCustomerById(id);
 		
@@ -212,9 +212,9 @@ public class CustomerServiceImpl implements CustomerService{
 		customer = cr.save(customer);
 		
 		return deal;
+
 		
-	}
-	
-	
+		return c.getListOfDeals();
+	}	
 	
 }

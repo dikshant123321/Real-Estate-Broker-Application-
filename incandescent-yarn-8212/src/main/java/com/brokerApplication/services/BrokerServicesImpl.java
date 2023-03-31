@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brokerApplication.entities.Broker;
+
+
 import com.brokerApplication.entities.Customer;
+
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.BrokerException;
@@ -71,12 +74,21 @@ public class BrokerServicesImpl implements BrokerServices{
 			return brokers;
 	}
 
+	
+
 	@Override
-	public List<Property> getListOfPropertiesById(Integer id) {
+	public List<Deal> listBrokerHandlerDeals(Integer brokerId) {
+		Broker bro=viewBrokerById(brokerId);
+		List<Deal> list=bro.getListOfDeals();
+		if(list.isEmpty()) throw new BrokerException("Hello "+bro.getBrokerName()+"/n"+" .. No Deal Listed ");
+		return list;
+
+	public List<Property> getListOfPropertiesById(Integer brokerId) {
 		
-		Broker broker = viewBrokerById(id);
-		
-		return broker.getListOfProperties();
+		Broker bro=viewBrokerById(brokerId);
+		List<Property> list=bro.getListOfProperties();
+		if(list.isEmpty()) throw new BrokerException("Hello "+bro.getBrokerName()+"/n"+" .. No properties where listed");
+		return list;
 		
 	}
 
@@ -134,5 +146,6 @@ public class BrokerServicesImpl implements BrokerServices{
 		
 		return deal;
 		
+
 	}
 }

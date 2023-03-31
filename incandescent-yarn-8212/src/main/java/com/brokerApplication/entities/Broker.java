@@ -37,7 +37,7 @@ public class Broker extends User{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "broker") 	// added
 	private List<Property> listOfProperties;
 
-	public Broker(String username, String email, String mobile, String role, String city, String password,
+	public Broker(String username, String email, String mobile, RoleType role, String city, String password,
 			@NotBlank @NotNull @NotEmpty String brokerName) {
 		super(username, email, mobile, role, city, password);
 		this.brokerName = brokerName;

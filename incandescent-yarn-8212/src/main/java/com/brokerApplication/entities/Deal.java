@@ -67,4 +67,5 @@ public class Deal {
 	private LocalDateTime startPeriod;
 	
 	private LocalDateTime endPeriod;
+
 }

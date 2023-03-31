@@ -22,6 +22,12 @@ public interface CustomerService {
 	public List<Property> viewAllProptiesByCustomerId(Integer id);
 	
 	public List<Deal> viewAllDealsByCustomerId(Integer id);
+
+//	
+//	public ResponseEntity<Deal> buyOrRentProperty(Integer customerId, Integer PropertyId);
+//	
+//	
+
 	
 	public Property addNewPropertyById(Integer customerId, Property property);
 	
