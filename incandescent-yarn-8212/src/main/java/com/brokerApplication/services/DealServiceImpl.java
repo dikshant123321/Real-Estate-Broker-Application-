@@ -176,6 +176,8 @@ public class DealServiceImpl implements DealService{
 		if(!deal.isCustomerAgree()) throw new DealException("you cant approve");
 		
 		
+		deal.setDealStatus(DealStatus.FULFILLED);
+		
 		property.setCustomer(customer);
 		customer.getListOfProperties().add(property);
 		
@@ -207,7 +209,7 @@ public class DealServiceImpl implements DealService{
 		if(!op2.isPresent()) throw new DealException("choose proper deal");
 		
 		if(!(op1.get().getBroker()==op2.get()))throw new DealException("choose correct property ");
-		dr.delete(op1.get());
+		op1.get().setDealStatus(DealStatus.REJECTED);
 		return "Deal cancelled";
 	}
 
