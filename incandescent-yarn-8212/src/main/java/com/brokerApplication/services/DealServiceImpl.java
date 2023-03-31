@@ -159,31 +159,31 @@ public class DealServiceImpl implements DealService{
 
 	@Override
 	public String approveDeal(BrokerOffer brokerOffer)throws  DealException{
-		Deal deal = getDealbyID(brokerOffer.getDealId());
-
-		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
-		if(!deal.getBroker().equals(broker)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Broker with Id: "+broker.getUserId());
-				
-		Customer customer = cs.viewCustomerById(brokerOffer.getCustomerId());
-		if(!deal.getCustomer().equals(customer)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Customer with Id: "+customer.getUserId());
-				
-		Property property = ps.viewPropertyById(brokerOffer.getPropertyId());
-		if(!deal.getProperty().equals(property)) throw new DealException("No Deal with Id: "+deal.getDealid()+" contains Property with Id: "+property.getPropertyId());
-		
-
-		
-		if(!deal.isBrokerAgree()) throw new DealException("you cant approve");
-		if(!deal.isCustomerAgree()) throw new DealException("you cant approve");
-		
-		
-		deal.setDealStatus(DealStatus.FULFILLED);
-		
-		property.setCustomer(customer);
-		customer.getListOfProperties().add(property);
-		
-		cr.save(customer);
-		
-		return "Deal Done";
+//		Deal deal = getDealbyID(brokerOffer.getDealId());
+//
+//		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
+//		if(!deal.getBroker().equals(broker)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Broker with Id: "+broker.getUserId());
+//				
+//		Customer customer = cs.viewCustomerById(brokerOffer.getCustomerId());
+//		if(!deal.getCustomer().equals(customer)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Customer with Id: "+customer.getUserId());
+//				
+//		Property property = ps.viewPropertyById(brokerOffer.getPropertyId());
+//		if(!deal.getProperty().equals(property)) throw new DealException("No Deal with Id: "+deal.getDealid()+" contains Property with Id: "+property.getPropertyId());
+//		
+//
+//		
+//		if(!deal.isBrokerAgree()) throw new DealException("you cant approve");
+//		if(!deal.isCustomerAgree()) throw new DealException("you cant approve");
+//		
+//		
+//		deal.setDealStatus(DealStatus.FULFILLED);
+//		
+//		property.setCustomer(customer);
+//		customer.getListOfProperties().add(property);
+//		
+//		cr.save(customer);
+//		
+//		return "Deal Done";
 		
 //		Optional<Deal> op1=dr.findById(did);
 //		
@@ -198,7 +198,7 @@ public class DealServiceImpl implements DealService{
 //		deal.setDealStatus(true);
 //		op1.get();
 //		
-		
+		return null;
 	}
 	
 	@Override
