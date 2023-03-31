@@ -8,10 +8,12 @@ import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.exceptions.DealException;
 
 public interface DealService {
-	public Deal addDealOfferFromCustomer(CustomerOffer offer);
+
+	public Deal addDealOfferFromCustomer(CustomerOffer customerOffer);
+	public Deal editDealOfferFromCustomerByDealId(Integer dealId, CustomerOffer customerOffer);
 	public List<Deal> getAllDeals();
 	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer);
-	public String approveDeal(BrokerOffer brokerOffer)throws  DealException;
-	public String AbandonedDeal(Integer did,Integer bid)throws  DealException;
 	public Deal getDealbyID(Integer dealid);
+	public Deal approveDeal(BrokerOffer brokerOffer);
+	public Deal AbandonedDeal(Integer dealId);
 }

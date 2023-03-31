@@ -18,7 +18,17 @@ public interface BrokerServices {
 	
 	public List<Broker> listAllBrokers();
 	
-	public List<Property> listBrokerHandlerProperties(Integer brokerId);
+
+	public List<Property>  getListOfPropertiesById(Integer brokerId);
 	
 	public List<Deal> listBrokerHandlerDeals(Integer brokerId);
+
+	
+	public Property getBrokerPropertyById(Integer brokerId ,Integer propertyId);
+	
+	public Deal addBrokerDealById(Integer brokerId, Deal deal);
+	
+	public Deal editBrokerDealById(Integer brokerId, Deal deal);
+	
+
 }

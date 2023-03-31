@@ -21,7 +21,8 @@ public class Customer extends User{
 
 	 private String CustomerName;
 	 
-	 @OneToMany( mappedBy = "customer")   						// added
+	 @OneToMany(mappedBy = "customer")   						// added
+
 //	 @JoinColumn(name = "customer")   								// added
 	 private List<Property> listOfProperties;
 	 
@@ -45,6 +46,7 @@ public class Customer extends User{
 //	}
 	 
 	 
-	
-	 
+
+	private List<CustomerNotification> notifications;
+
 }

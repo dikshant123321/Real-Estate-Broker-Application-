@@ -21,15 +21,19 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer addCustomer(Customer c) {
+
+
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
 		c = cr.save(c);
 		
 		return c;
+
 	}
 
 	@Override
 	public Customer editCustomer(Customer c) {
+
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
 		Optional<Customer> opt = cr.findById(c.getUserId());
@@ -47,7 +51,9 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer removeCustomer(Integer id) {
+
 		Optional<Customer> opt = cr.findById(id);
+
 		
 		 if(opt.isPresent()) {
 			 
@@ -100,7 +106,113 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public List<Deal> viewAllDealsByCustomerId(Integer id) {
+
+
 		Customer c = viewCustomerById(id);
+		
+		return c.getListOfDeals();
+		
+	}
+
+	@Override
+	public Property addNewPropertyById(Integer customerId, Property property) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		//Verify
+		
+		customer.getListOfProperties().add(property);
+		
+		customer = cr.save(customer);
+		
+		return property;
+	}
+
+//	@Override
+//	public Property editCustomerPropertyById(Integer customerId, Property property) {
+//		
+//		Customer customer = viewCustomerById(customerId);
+//		
+//		//Verify
+//		
+//		Property updatedProperty = null;
+//		
+//		for(Property p: customer.getListOfProperties()) {
+//			
+//			if(property.getPropertyId() == p.getPropertyId()) {
+//				
+//				updatedProperty = p;
+//				p = property;
+//				break;
+//				
+//			}
+//			
+//		}
+//		
+//		if(updatedProperty == null) throw new CustomerException("Customer with Id "+customerId+" doesn't have Property with Id "+property.getPropertyId());
+//		
+//		customer = cr.save(customer);
+//		
+//		return property;
+//		
+//	}
+
+	@Override
+	public Property viewCustomerPropertyById(Integer customerId, Integer propertyId) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		for(Property p: customer.getListOfProperties()) {
+			
+			if(p.getPropertyId() == propertyId) return p;
+			
+		}
+		
+		throw new CustomerException("Customer with Id "+customerId+" doesn't have Property with Id "+propertyId);
+	}
+	
+	@Override
+	public Deal addNewDealById(Integer customerId, Deal deal) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		//Verify
+		
+		customer.getListOfDeals().add(deal);
+		
+		customer = cr.save(customer);
+		
+		return deal;
+		
+	}
+
+	@Override
+	public Deal editCustomerDealById(Integer customerId, Deal deal) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		//Verify
+		
+		Deal updatedDeal = null;
+		
+		for(Deal d: customer.getListOfDeals()) {
+			
+			if(deal.getDealid() == d.getDealid()) {
+				
+				updatedDeal = d;
+				d = deal;
+				break;
+				
+			}
+			
+		}
+		
+		if(updatedDeal == null) throw new CustomerException("Customer with Id "+customerId+" doesn't have Deal with Id "+deal.getDealid());
+		
+		customer = cr.save(customer);
+		
+		return deal;
+
 		
 		return c.getListOfDeals();
 	}	
