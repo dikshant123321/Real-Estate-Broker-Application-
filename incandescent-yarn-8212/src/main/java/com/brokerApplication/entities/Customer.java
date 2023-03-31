@@ -22,7 +22,7 @@ public class Customer extends User{
 
 	 private String CustomerName;
 	 
-	 @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")   						// added
+	 @OneToMany(mappedBy = "customer")   						// added
 //	 @JoinColumn(name = "customer")   								// added
 	 private List<Property> listOfProperties;
 	 
@@ -35,5 +35,5 @@ public class Customer extends User{
 		CustomerName = customerName;
 	}
 
-	 
+	private List<CustomerNotification> notifications;
 }

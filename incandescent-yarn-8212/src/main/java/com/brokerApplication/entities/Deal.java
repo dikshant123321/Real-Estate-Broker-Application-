@@ -2,6 +2,7 @@ package com.brokerApplication.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -49,7 +50,6 @@ public class Deal {
 	private Customer customer;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "deal")
 	@NotNull(message = "Property cannot be Null.")
 	private Property property;
 	
@@ -58,4 +58,13 @@ public class Deal {
 	@JoinColumn(name = "broker")  // added
 	private Broker broker;
 	
+	@JsonProperty(access = Access.READ_ONLY)
+	private boolean isCustomerAgree;
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	private boolean isBrokerAgree;
+	
+	private LocalDateTime startPeriod;
+	
+	private LocalDateTime endPeriod;
 }
