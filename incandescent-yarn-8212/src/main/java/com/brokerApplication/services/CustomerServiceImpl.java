@@ -20,18 +20,18 @@ public class CustomerServiceImpl implements CustomerService{
 	private CustomerRepository cr;
 
 	@Override
-	public ResponseEntity<Customer> addCustomer(Customer c) {
+	public Customer addCustomer(Customer c) {
 		
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
 		c = cr.save(c);
 		
-		return new ResponseEntity<>(c, HttpStatus.ACCEPTED);
+		return c;
 		
 	}
 
 	@Override
-	public ResponseEntity<Customer> editCustomer(Customer c) {
+	public Customer editCustomer(Customer c) {
 		
 		if(c == null) throw new CustomerException("Customer can not be null");
 		
@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService{
 			
 			c = cr.save(c);
 			
-			return new ResponseEntity<>(c, HttpStatus.OK);
+			return c;
 			
 		}
 	
@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public ResponseEntity<Customer> removeCustomer(Integer id) {
+	public Customer removeCustomer(Integer id) {
 		
 		 Optional<Customer> opt = cr.findById(id);
 		
@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService{
 			 
 			 cr.delete(c);
 			 
-			 return new ResponseEntity<Customer>(c, HttpStatus.OK);
+			 return c;
 			 
 		 }
 		 
@@ -69,14 +69,14 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public ResponseEntity<Customer> viewCustomerById(Integer id) {
+	public Customer viewCustomerById(Integer id) {
 		Optional<Customer> opt = cr.findById(id);
 		
 		 if(opt.isPresent()) {
 			 
 			 Customer c = opt.get();
 			 
-			 return new ResponseEntity<Customer>(c, HttpStatus.OK);
+			 return c;
 			 
 		 }
 		 
@@ -85,32 +85,133 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public ResponseEntity<List<Customer>> viewAllCustomers() {
+	public List<Customer> viewAllCustomers() {
 		
 		List<Customer> list = cr.findAll();
 		
 		 if(list.size()==0) throw new CustomerException("No customer is available");
 		 
-		 return new ResponseEntity<>(list, HttpStatus.OK);
+		 return list;
 		 
 		
 	}
 
 	@Override
-	public ResponseEntity<List<Property>> viewAllProptiesByCustomerId(Integer id) {
+	public List<Property> viewAllProptiesByCustomerId(Integer id) {
 		
-		Customer c = viewCustomerById(id).getBody();
+		Customer c = viewCustomerById(id);
 		
-		return new ResponseEntity<>(c.getListOfProperties(),HttpStatus.OK);
+		return c.getListOfProperties();
 		
 	}
 
 	@Override
-	public ResponseEntity<List<Deal>> viewAllDealsByCustomerId(Integer id) {
+	public List<Deal> viewAllDealsByCustomerId(Integer id) {
 
-		Customer c = viewCustomerById(id).getBody();
+		Customer c = viewCustomerById(id);
 		
-		return new ResponseEntity<>(c.getListOfDeals(),HttpStatus.OK);
+		return c.getListOfDeals();
+		
+	}
+
+	@Override
+	public Property addNewPropertyById(Integer customerId, Property property) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		//Verify
+		
+		customer.getListOfProperties().add(property);
+		
+		customer = cr.save(customer);
+		
+		return property;
+	}
+
+//	@Override
+//	public Property editCustomerPropertyById(Integer customerId, Property property) {
+//		
+//		Customer customer = viewCustomerById(customerId);
+//		
+//		//Verify
+//		
+//		Property updatedProperty = null;
+//		
+//		for(Property p: customer.getListOfProperties()) {
+//			
+//			if(property.getPropertyId() == p.getPropertyId()) {
+//				
+//				updatedProperty = p;
+//				p = property;
+//				break;
+//				
+//			}
+//			
+//		}
+//		
+//		if(updatedProperty == null) throw new CustomerException("Customer with Id "+customerId+" doesn't have Property with Id "+property.getPropertyId());
+//		
+//		customer = cr.save(customer);
+//		
+//		return property;
+//		
+//	}
+
+	@Override
+	public Property viewCustomerPropertyById(Integer customerId, Integer propertyId) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		for(Property p: customer.getListOfProperties()) {
+			
+			if(p.getPropertyId() == propertyId) return p;
+			
+		}
+		
+		throw new CustomerException("Customer with Id "+customerId+" doesn't have Property with Id "+propertyId);
+	}
+	
+	@Override
+	public Deal addNewDealById(Integer customerId, Deal deal) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		//Verify
+		
+		customer.getListOfDeals().add(deal);
+		
+		customer = cr.save(customer);
+		
+		return deal;
+		
+	}
+
+	@Override
+	public Deal editCustomerDealById(Integer customerId, Deal deal) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		//Verify
+		
+		Deal updatedDeal = null;
+		
+		for(Deal d: customer.getListOfDeals()) {
+			
+			if(deal.getDealid() == d.getDealid()) {
+				
+				updatedDeal = d;
+				d = deal;
+				break;
+				
+			}
+			
+		}
+		
+		if(updatedDeal == null) throw new CustomerException("Customer with Id "+customerId+" doesn't have Deal with Id "+deal.getDealid());
+		
+		customer = cr.save(customer);
+		
+		return deal;
 		
 	}
 	

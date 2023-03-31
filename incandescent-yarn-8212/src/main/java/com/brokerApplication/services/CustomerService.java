@@ -9,22 +9,26 @@ import com.brokerApplication.entities.Property;
 
 public interface CustomerService {
 
-	public ResponseEntity<Customer> addCustomer(Customer c);
+	public Customer addCustomer(Customer c);
 	
-	public ResponseEntity<Customer> editCustomer(Customer c);
+	public Customer editCustomer(Customer c);
 	
-	public ResponseEntity<Customer> removeCustomer(Integer id);
+	public Customer removeCustomer(Integer id);
 	
-	public ResponseEntity<Customer> viewCustomerById(Integer id);
+	public Customer viewCustomerById(Integer id);
 	
-	public ResponseEntity<List<Customer>> viewAllCustomers();
+	public List<Customer> viewAllCustomers();
 	
-	public ResponseEntity<List<Property>> viewAllProptiesByCustomerId(Integer id);
+	public List<Property> viewAllProptiesByCustomerId(Integer id);
 	
-	public ResponseEntity<List<Deal>> viewAllDealsByCustomerId(Integer id);
-//	
-//	public ResponseEntity<Deal> buyOrRentProperty(Integer customerId, Integer PropertyId);
-//	
-//	
+	public List<Deal> viewAllDealsByCustomerId(Integer id);
 	
+	public Property addNewPropertyById(Integer customerId, Property property);
+	
+//	public Property editCustomerPropertyById(Integer customerId, Property property);
+	public Property viewCustomerPropertyById(Integer customerId, Integer propertyId);
+	
+	public Deal addNewDealById(Integer customerId, Deal deal);
+	
+	public Deal editCustomerDealById(Integer customerId, Deal deal);
 }

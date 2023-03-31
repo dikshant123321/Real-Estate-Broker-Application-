@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brokerApplication.entities.Broker;
+import com.brokerApplication.entities.Customer;
+import com.brokerApplication.entities.Deal;
+import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.BrokerException;
+import com.brokerApplication.exceptions.CustomerException;
 import com.brokerApplication.repositorys.BrokerDao;
 
 @Service
@@ -65,5 +69,70 @@ public class BrokerServicesImpl implements BrokerServices{
 			throw new BrokerException("All broker is registered with us.");
 		else
 			return brokers;
+	}
+
+	@Override
+	public List<Property> getListOfPropertiesById(Integer id) {
+		
+		Broker broker = viewBrokerById(id);
+		
+		return broker.getListOfProperties();
+		
+	}
+
+	@Override
+	public Property getBrokerPropertyById(Integer brokerId ,Integer propertyId) {
+		
+		Broker broker = viewBrokerById(brokerId);
+		
+		List<Property> properties = broker.getListOfProperties();
+		
+		for(Property p: properties) if(p.getPropertyId() == propertyId) return p;
+		
+		throw new BrokerException("Broker with Id: "+brokerId+" has no property with Id: "+propertyId);
+		
+	}
+
+	@Override
+	public Deal addBrokerDealById(Integer brokerId, Deal deal) {
+		
+		Broker broker = viewBrokerById(brokerId);
+		
+		//Verify
+		
+		broker.getListOfDeals().add(deal);
+		
+		broker = brokerDao.save(broker);
+		
+		return deal;
+		
+	}
+
+	@Override
+	public Deal editBrokerDealById(Integer brokerId, Deal deal) {
+		Broker broker = viewBrokerById(brokerId);
+		
+		//Verify
+		
+		Deal updatedDeal = null;
+		
+		for(Deal d: broker.getListOfDeals()) {
+			
+			if(deal.getDealid() == d.getDealid()) {
+				
+				updatedDeal = d;
+				d = deal;
+				break;
+				
+			}
+			
+		}
+		
+		if(updatedDeal == null) throw new CustomerException("Broker with Id "+brokerId+" doesn't have Deal with Id "+deal.getDealid());
+		
+		broker = brokerDao.save(broker);
+		
+		return deal;
+		
 	}
 }
