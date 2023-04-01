@@ -38,6 +38,7 @@ public class BrokerController implements BrokerControllerInterface {
 	
 	@PostMapping("/brokers/signup")
 	public ResponseEntity<Broker> registerBrokerHandler(@RequestBody Broker broker){
+		
 		Broker newBroker = brokerServices.addBroker(broker);
 		return new ResponseEntity<>(newBroker, HttpStatus.CREATED);
 	}
