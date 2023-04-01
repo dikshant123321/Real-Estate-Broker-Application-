@@ -20,5 +20,6 @@ public class LoggedSession {
 	@Column(unique = true)
 	private Integer userId;
 	private String uniquekey;
+	private RoleType role;
 	private LocalDateTime localDateTime;
 }

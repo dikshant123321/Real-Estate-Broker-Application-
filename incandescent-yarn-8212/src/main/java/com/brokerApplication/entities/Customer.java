@@ -47,6 +47,6 @@ public class Customer extends User{
 	 
 	 
 
-	private List<CustomerNotification> notifications;
+//	private List<CustomerNotification> notifications;
 
 }
