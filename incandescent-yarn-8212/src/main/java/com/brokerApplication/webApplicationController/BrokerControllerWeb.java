@@ -2,10 +2,12 @@ package com.brokerApplication.webApplicationController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.webApplicationServices.BrokerWebServices;
@@ -42,5 +44,11 @@ public class BrokerControllerWeb {
 	public String showproper(@PathVariable Integer id,Model model) {
 		model.addAttribute("properties", brokerServices.getAllProperties(id));
 		return "brokersproperties";
+	}
+	
+	@DeleteMapping("/mybrokers/{id}")
+	public String delbroker(@PathVariable Integer id) {
+		brokerServices.delbrokerbyid(id);
+		return "redirect:/";
 	}
 }
