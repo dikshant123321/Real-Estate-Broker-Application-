@@ -58,7 +58,6 @@ function validateLoginForm(event) {
 
  		
 
-
 	}
 }
 function validateSignupForm(event) {

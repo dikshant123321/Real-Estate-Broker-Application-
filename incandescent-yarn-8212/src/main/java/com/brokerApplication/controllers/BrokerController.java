@@ -75,11 +75,13 @@ public class BrokerController implements BrokerControllerInterface {
 		as.Auth(brokerOffer.getBrokerId(),key);
 		return new ResponseEntity<Deal>(ds.setDealOfferFromBroker(brokerOffer),HttpStatus.OK);
 	}
+	
 	@PostMapping("/brokers/deals/accept")
 	public ResponseEntity<Deal> acceptDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
 		as.Auth(brokerOffer.getBrokerId(), key);	
 		return new ResponseEntity<Deal>(ds.approveDeal(brokerOffer),HttpStatus.ACCEPTED);
 	}
+	
 	@PostMapping("/brokers/deals/reject")
 	public ResponseEntity<Deal> rejectDeal(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@PathVariable Integer dealid)throws AuthorizationException {
 		as.Auth(brokerid, key);	
@@ -92,10 +94,4 @@ public class BrokerController implements BrokerControllerInterface {
 		Broker broker = brokerServices.viewBrokerById(id);
 		return new ResponseEntity<>(broker,HttpStatus.FOUND);
 	}
-		
-	
-	
-	
-	
-	
 }
