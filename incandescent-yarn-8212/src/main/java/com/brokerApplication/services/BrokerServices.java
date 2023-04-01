@@ -22,7 +22,7 @@ public interface BrokerServices {
 	public List<Property>  getListOfPropertiesById(Integer brokerId);
 	
 	public List<Deal> listBrokerHandlerDeals(Integer brokerId);
-
+	
 	
 	public Property getBrokerPropertyById(Integer brokerId ,Integer propertyId);
 	

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Payment Page</title>
+    <style>
+		.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+  
+  button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+	</style>
+
+  </head>
+  <body>
+    <div class="container">
+      <h1>Payment Page</h1>
+      <form id="payment-form" onsubmit="fun(event)">
+        <label>
+          Card Number
+          <input id="card-number" type="text" size="20" autocomplete="off" required>
+        </label>
+        <br>
+        <label>
+          Expiration Month
+          <input id="card-exp-month" type="text" size="2" autocomplete="off" required>
+        </label>
+        <label>
+          Expiration Year
+          <input id="card-exp-year" type="text" size="4" autocomplete="off" required>
+        </label>
+        <br>
+        <label>
+          CVC
+          <input id="card-cvc" type="text" size="4" autocomplete="off" required>
+        </label>
+        <br>
+        <button id="submit-button" type="submit">Submit Payment</button>
+      </form>
+      <p id="payment-errors"></p>
+    </div>
+  </body>
+</html>
+<Script>
+	function fun(event) {
+  event.preventDefault();
+
+  // Disable the submit button to prevent multiple submissions
+  document.getElementById('submit-button').disabled = true;
+
+  // Get the card details submitted by the user
+  var card = {
+    number: document.getElementById('card-number').value,
+    exp_month: document.getElementById('card-exp-month').value,
+    exp_year: document.getElementById('card-exp-year').value,
+    cvc: document.getElementById('card-cvc').value
+  };
+  alert("payment Sucessfull");
+  console.log(card.number);
+}
+</Script>

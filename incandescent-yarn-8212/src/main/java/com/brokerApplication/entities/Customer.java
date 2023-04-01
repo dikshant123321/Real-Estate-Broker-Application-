@@ -2,6 +2,9 @@ package com.brokerApplication.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -21,11 +24,12 @@ public class Customer extends User{
 
 	 private String CustomerName;
 	 
+	 
+	 @JsonProperty(access = Access.READ_ONLY)
 	 @OneToMany(mappedBy = "customer")   						// added
-
-//	 @JoinColumn(name = "customer")   								// added
 	 private List<Property> listOfProperties;
 	 
+	 @JsonProperty(access = Access.READ_ONLY)
 	 @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer") 	// added
 	 private List<Deal> listOfDeals;
 

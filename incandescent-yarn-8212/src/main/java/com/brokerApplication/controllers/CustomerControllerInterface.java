@@ -3,26 +3,36 @@ package com.brokerApplication.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.brokerApplication.entities.Customer;
+//import com.brokerApplication.entities.CustomerNotification;
 import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Deal;
+//import com.brokerApplication.entities.PaymentDetails;
 import com.brokerApplication.entities.Property;
+import com.brokerApplication.exceptions.AuthorizationException;
+import com.brokerApplication.exceptions.PropertyException;
 
 public interface CustomerControllerInterface {
 	
 	public ResponseEntity<Customer> createCustomerAccount(Customer customer);
-	public ResponseEntity<Customer> viewCustomerProfileById(Integer id);
+	public ResponseEntity<Customer> viewCustomerProfileById(Integer customerId,String Key);
 	public ResponseEntity<Customer> editCustomerProfile(Customer customer);
-	public ResponseEntity<Customer> deleteCustomerAccountById(Integer id);
-	public ResponseEntity<List<Property>> viewAllCustomerPropertiesById(Integer id);
-	public ResponseEntity<List<Deal>> viewAllCustomerDealsById(Integer id);
+	public ResponseEntity<Customer> deleteCustomerAccountById(Integer customerId,String Key);
+	public ResponseEntity<List<Property>> viewAllProptiesByCustomerId(Integer id,String Key);
+	public ResponseEntity<List<Deal>> viewAllDealsByCustomerId(Integer id,String Key);
+//	public ResponseEntity<Property> addNewPropertyById(Integer customerId, Property property);
+	public ResponseEntity<Property> viewCustomerPropertyById(Integer customerId, Integer propertyId,String key);
+//	public ResponseEntity<CustomerNotification> seeCustomerNotificationByBy(Integer customerId, Integer notificationId);
 	
-	public ResponseEntity<Deal> requestDealToBroker(CustomerOffer customerOffer);
-	public ResponseEntity<Deal> viewDealByCustomerIdAndDealId(Integer customerId, Integer dealId);
-	public ResponseEntity<Deal> editDealByCustomerIdAndDealId(Integer customerId, Integer dealId);
+	public ResponseEntity<Property> viewPropertyById(Integer propertyId)throws PropertyException;
+	public ResponseEntity<List<Property>> viewListOfProperties()throws PropertyException;
 	
-	public ResponseEntity<PaymentReceipt> makeAPaymentByDealIdAndCustomerId(PaymentDetails paymentDeatils, Integer customerId, Integer dealId);
-	
-	public ResponseEntity<Deal> acceptTheDealOfferFromBroker();
+	public ResponseEntity<Deal> addDealOfferFromCustomer(CustomerOffer customerOffer);
+	public ResponseEntity<Deal> editDealOfferFromCustomerByDealId(Integer dealId, CustomerOffer customerOffer);
+	public ResponseEntity<Deal> acceptDealForCustomer(Integer dealId, Integer customerId);
+	public ResponseEntity<Deal> rejectDealForCustomer(Integer dealId, Integer customerId);
+	public ResponseEntity<Deal> payBillForDeal(PaymentDetails paymentDetails);
 }

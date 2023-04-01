@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.brokerApplication.entities.Broker;
 import com.brokerApplication.entities.BrokerOffer;
 import com.brokerApplication.entities.Deal;
@@ -23,6 +24,7 @@ import com.brokerApplication.exceptions.AuthorizationException;
 import com.brokerApplication.services.AuthorizationService;
 import com.brokerApplication.services.BrokerServices;
 import com.brokerApplication.services.DealService;
+import com.brokerApplication.services.PropertyService;
 
 @RestController
 public class BrokerController implements BrokerControllerInterface {
@@ -33,6 +35,11 @@ public class BrokerController implements BrokerControllerInterface {
 	AuthorizationService as;
 	@Autowired
 	DealService ds;
+	///
+	@Autowired
+	PropertyService ps;
+	
+	///
 	
 	private List<Broker> brokers= new ArrayList<>();
 	
@@ -57,7 +64,7 @@ public class BrokerController implements BrokerControllerInterface {
 	@PostMapping("/brokers/properties/{brokerid}")
 	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer brokerid,@RequestHeader("Auth") String key,@RequestBody Property property) throws AuthorizationException {
 		as.Auth(brokerid, key);	
-		return null;
+		return new ResponseEntity<Property>(ps.addProperty(property, brokerid),HttpStatus.OK);
 	}
 	@GetMapping("/brokers/properties/{brokerid}")
 	public ResponseEntity<List<Property>> brokerHandlerProperties(@PathVariable Integer brokerid,@RequestHeader("Auth") String key)throws AuthorizationException{

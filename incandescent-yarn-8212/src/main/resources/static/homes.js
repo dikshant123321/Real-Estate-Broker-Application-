@@ -124,7 +124,7 @@ function validateSignupForm(event) {
 			 	role: role,
 			  	city: city,
 			  	password: password,
-			  	brokerName: name
+			  	customerName: name
 					})
 		  	 })
 		     .then(response => response.json())
