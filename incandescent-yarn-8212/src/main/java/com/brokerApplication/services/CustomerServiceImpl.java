@@ -2,10 +2,8 @@ package com.brokerApplication.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brokerApplication.entities.Customer;
@@ -16,7 +14,8 @@ import com.brokerApplication.repositorys.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
-
+	
+	@Autowired
 	private CustomerRepository cr;
 
 	@Override
@@ -24,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 
 		if(c == null) throw new CustomerException("Customer can not be null");
-		
+		System.out.println(c);
 		c = cr.save(c);
 		
 		return c;

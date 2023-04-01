@@ -9,9 +9,11 @@ import com.brokerApplication.entities.CustomerOffer;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.Property;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 public interface CustomerControllerInterface {
 	
-	public ResponseEntity<Customer> createCustomerAccount(Customer customer);
+	public ResponseEntity<Customer> createCustomerAccount(@RequestBody Customer customer);
 	public ResponseEntity<Customer> viewCustomerProfileById(Integer id);
 	public ResponseEntity<Customer> editCustomerProfile(Customer customer);
 	public ResponseEntity<Customer> deleteCustomerAccountById(Integer id);
