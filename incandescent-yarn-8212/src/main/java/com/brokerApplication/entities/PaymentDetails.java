@@ -25,11 +25,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PaymentDetails {
 	
-	@Id
 	@NotNull
-	@JsonProperty(access = Access.READ_ONLY)
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer dealId;
+	
+	@NotNull
+	private Integer customerId;
 	
 	@NotNull
 	@NotEmpty

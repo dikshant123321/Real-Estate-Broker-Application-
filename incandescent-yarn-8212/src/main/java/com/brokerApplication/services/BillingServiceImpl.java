@@ -1,6 +1,7 @@
 package com.brokerApplication.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.brokerApplication.entities.Bill;
 import com.brokerApplication.entities.BillStatus;
@@ -10,6 +11,9 @@ import com.brokerApplication.entities.PaymentReceipt;
 import com.brokerApplication.exceptions.BillingException;
 import com.brokerApplication.repositorys.BillingRepository;
 
+import io.swagger.v3.oas.annotations.servers.Server;
+
+@Service
 public class BillingServiceImpl implements BillingService {
 
 	@Autowired
