@@ -1,15 +1,12 @@
 
 package com.brokerApplication.entities;
 
-import org.hibernate.validator.constraints.URL;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +32,8 @@ public class User{
 	private String username;
 	
 //	@URL
-//	private String profilePhoto;
+	private String profilePhoto;
+
 	
 	@Email
 	@Column(unique = true)
