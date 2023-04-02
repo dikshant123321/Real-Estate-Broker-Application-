@@ -2,23 +2,28 @@ package com.brokerApplication.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.brokerApplication.entities.Customer;
+import com.brokerApplication.entities.CustomerNotification;
 import com.brokerApplication.entities.Deal;
+import com.brokerApplication.entities.NotificationSatus;
 import com.brokerApplication.entities.Property;
+import com.brokerApplication.exceptions.BrokerException;
 import com.brokerApplication.exceptions.CustomerException;
+import com.brokerApplication.repositorys.CustomerNotificationRepository;
 import com.brokerApplication.repositorys.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
 
+	@Autowired
 	private CustomerRepository cr;
 
+	@Autowired
+	private CustomerNotificationRepository cnr;
+	
 	@Override
 	public Customer addCustomer(Customer c) {
 
@@ -213,6 +218,80 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		return deal;
 
+	}
+
+	@Override
+	public Deal deleteCustomerDealById(Integer customerId, Integer dealId) {
+
+		Customer customer = viewCustomerById(customerId);
+		
+		for(Deal d: customer.getListOfDeals()) {
+			
+			if(d.getDealid() == dealId) {
+				
+				customer.getListOfDeals().remove(d);
+				cr.save(customer);
+				return d;
+				
+			}
+			
+		}
+		
+		throw new BrokerException("Customer with Id: "+customerId+" does not have Deal with id: "+dealId);
+		
 	}	
+	
+	@Override
+	public Property removeCustomerPropertyById(Integer customerId, Integer propertyId) {
+
+		Customer customer = viewCustomerById(customerId);
+		
+		for(Property p: customer.getListOfProperties()) {
+			
+			if(p.getPropertyId() == propertyId) {
+				
+				customer.getListOfDeals().remove(p);
+				cr.save(customer);
+				return p;
+				
+			}
+			
+		}
+		
+		throw new BrokerException("Customer with Id: "+customerId+" does not have Property with id: "+propertyId);
+		
+	}
+	
+	@Override
+	public void sendNotificationToCustomerAboutDeal(Integer customerId,CustomerNotification customerNotification) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		customer.getNotifications().add(customerNotification);
+		
+		cr.save(customer);
+		
+	}
+	
+	@Override
+	public CustomerNotification seeCustomerNotificationByBy(Integer customerId, Integer notificationId) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		for(CustomerNotification cn: customer.getNotifications()) {
+			
+			if(cn.getCustomerNotificationId() == notificationId) {
+				
+				cn.setNotificationSatus(NotificationSatus.SEEN);
+				cr.save(customer);
+				
+				return cnr.save(cn);
+			}
+			
+		}
+		
+		throw new CustomerException("Customer with Id "+customerId+" has no Notification with Id "+notificationId);
+	
+	}
 	
 }

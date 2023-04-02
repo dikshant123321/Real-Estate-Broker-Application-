@@ -1,5 +1,6 @@
 package com.brokerApplication.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -44,16 +46,16 @@ public class Deal {
 	@JsonProperty(access = Access.READ_ONLY)
 	private DealStatus dealStatus; 
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@NotNull(message = "Customer cannot be Null.")
 	@JoinColumn(name = "customer")  // added
 	private Customer customer;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@NotNull(message = "Property cannot be Null.")
 	private Property property;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@NotNull(message = "Broker cannot be Null.")
 	@JoinColumn(name = "broker")  // added
 	private Broker broker;
@@ -64,8 +66,15 @@ public class Deal {
 	@JsonProperty(access = Access.READ_ONLY)
 	private boolean isBrokerAgree;
 	
-	private LocalDateTime startPeriod;
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate rentStartPeriod;
 	
-	private LocalDateTime endPeriod;
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate rentEndPeriod;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonProperty(access = Access.READ_ONLY)
+	private Bill bill;
+	
+	
 }
