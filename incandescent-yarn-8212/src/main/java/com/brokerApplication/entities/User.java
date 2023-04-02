@@ -34,8 +34,8 @@ public class User{
 	@Column(unique = true)
 	private String username;
 	
-	@URL
-	private String profilePhoto;
+//	@URL
+//	private String profilePhoto;
 	
 	@Email
 	@Column(unique = true)
