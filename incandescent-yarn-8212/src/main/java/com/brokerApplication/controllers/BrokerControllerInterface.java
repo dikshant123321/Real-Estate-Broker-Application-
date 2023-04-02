@@ -27,8 +27,10 @@ public interface BrokerControllerInterface {
 	//property.service
 	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer broid, @RequestParam String key,@RequestBody Property property);
 	public ResponseEntity<List<Property>> getAllPropertiesOfBrokerHandler(@PathVariable Integer broid,@RequestParam String key);
-	public ResponseEntity<List<Deal>> getAllDealsOfBrokerHandler(@PathVariable Integer brokerId,@RequestParam String key);
 	public ResponseEntity<Property> getBrokerPropertyById(@PathVariable Integer brokerId,  @RequestParam String key, @RequestParam Integer propertyId);
+	
+	public ResponseEntity<Deal> getDealOfBrokerByIdHandler(Integer brokerId, String key, Integer dealId);
+	public ResponseEntity<List<Deal>> getAllDealsOfBrokerHandler(@PathVariable Integer brokerId,@RequestParam String key);
 
 	//Deal manager handlers
 	//Deal service layer

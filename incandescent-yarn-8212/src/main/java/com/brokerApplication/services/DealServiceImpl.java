@@ -421,7 +421,7 @@ public class DealServiceImpl implements DealService{
 		String notificationMessage = broker.getBrokerName()+" accepted your deal, now proceed to payment.";
 		CustomerNotification customerNotification = new CustomerNotification(broker.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
 		
-		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
+		cs.sendNotificationToCustomerAboutDeal(customer.getUserId(), customerNotification);
 		
 		return updatedDeal;
 		
