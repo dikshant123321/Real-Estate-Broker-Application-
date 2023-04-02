@@ -115,7 +115,7 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@GetMapping("/brokers/deal/{deal}/{brokerId}")
+	@GetMapping("/brokers/deals/{brokerId}")
 	public ResponseEntity<List<Deal>> getAllDealsOfBrokerHandler(@PathVariable Integer brokerId,@RequestParam String key)
 			throws AuthorizationException {
 		as.Auth(brokerId, key);	
@@ -151,4 +151,9 @@ public class BrokerController implements BrokerControllerInterface {
 		return new ResponseEntity<List<BrokerNotification>>(brokerServices.viewAllBrokerNotificationById(brokerId), HttpStatus.OK);
 	}
 	
+	@Override
+	public ResponseEntity<Deal> getDealOfBrokerByIdHandler(Integer brokerId, String key, Integer dealId) {
+		as.Auth(brokerId, key);
+		return new ResponseEntity<Deal>(ds.getDealById(dealId), HttpStatus.OK);
+	}
 }
