@@ -37,8 +37,9 @@ public class User{
 	
 	@Pattern(regexp = "^[0-9]{10}$", message = "Please enter currect mobile number.")
 	private String mobile;
-	@Enumerated(value = EnumType.STRING)
 	
+	
+	@Enumerated(value = EnumType.STRING)
 	@NotNull
 	private RoleType role;
 	

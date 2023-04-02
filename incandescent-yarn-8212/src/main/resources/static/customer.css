@@ -1,0 +1,108 @@
+body{
+    background-color: darkolivegreen;
+    margin: 0;
+    padding: 0;
+}
+nav{
+    width: 98%;
+    height: 70px;
+    background-color: black;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    align-items: center;
+}
+nav h3{
+    color: white;
+    font-size: 42px;
+}
+nav button{
+    padding: 10px 16px;
+    background-color: darkgreen;
+    color: white;
+    border: 2px solid white;
+    border-radius: 12px;
+    font-size: 19px;
+}
+nav div{
+    width: 11%;
+    height: 90%;
+    margin-left: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+nav div img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.container{
+    width: 90%;
+    height: 530px;
+    margin: 20px auto;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+}
+.tab{
+    width: 35%;
+    background-color: bisque;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    overflow-y: scroll;
+}
+.tab button{
+    padding: 5px 20px;
+    font-size: 17px;
+    width: 90%;
+    margin: 3px auto;
+    background-color: green;
+    color: white;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+#box{
+    width: 38%;
+    background-color: aqua;
+}
+#box div{
+    background-color: orange;
+}
+.showdiv{
+    width: 36%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    border: 10px solid white;
+}
+.tabcontent{
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+}
+.tabcontent label{
+    width: 20%;
+    font-size: 20px;
+    margin: 2px auto;
+    font-weight: bolder;
+}
+.tabcontent input{
+    width: 90%;
+    font-weight: bolder;
+    display: block;
+    margin: 2px auto;
+    font-size: 20px;
+}
+.tabcontent button{
+    text-align: center;
+    background-color: green;
+    color: white;
+    padding: 5px 20px;
+    margin: auto;
+}
