@@ -40,6 +40,7 @@ public class PropertyServiceImple implements PropertyService{
 		
 		Broker broker = bs.viewBrokerById(brokerId);
 		
+		
 		property.setIsAvailable(true);
 		property.setBroker(broker);
 		

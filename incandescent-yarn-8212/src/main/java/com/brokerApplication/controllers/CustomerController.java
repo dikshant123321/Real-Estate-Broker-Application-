@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,14 +73,14 @@ public class CustomerController implements CustomerControllerInterface{
 		
 	}
 	
-	@Override
-	@PostMapping("/customers/delete/{customerId}")
-	public ResponseEntity<Customer> deleteCustomerAccountById(@PathVariable Integer customerId,@RequestParam  String Key) {
-		
-		as.Auth(customerId,Key);
-		return new  ResponseEntity<Customer>(cs.removeCustomer(customerId),HttpStatus.OK);
-		
-	}
+//	@Override
+//	@PostMapping("/customers/delete/{customerId}")
+//	public ResponseEntity<Customer> deleteCustomerAccountById(@PathVariable Integer customerId,@RequestParam  String Key) {
+//		
+//		as.Auth(customerId,Key);
+//		return new  ResponseEntity<Customer>(cs.removeCustomer(customerId),HttpStatus.OK);
+//		
+//	}
 	
 	@Override
 	@GetMapping("/customers/properties/{id}")
@@ -91,7 +92,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 	
 	@Override
-	@GetMapping("/customers/deals/{id}")
+	@GetMapping("/customers/{customerId}/deals/{id}")
 	public ResponseEntity<List<Deal>> viewAllDealsByCustomerId(@PathVariable Integer customerId,@RequestParam  String Key) {
 		
 		as.Auth(customerId,Key);
@@ -167,7 +168,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 
 	@Override
-	@GetMapping("customer/{customerId}/notifications")
+	@GetMapping("customer/{customerId}/notification")
 	public ResponseEntity<CustomerNotification> seeCustomerNotificationByBy(@PathVariable Integer customerId, @RequestParam Integer notificationId,
 			String Key) {
 		
@@ -175,6 +176,19 @@ public class CustomerController implements CustomerControllerInterface{
 		CustomerNotification customerNotification = cs.seeCustomerNotificationByBy(customerId, notificationId);		
 		return new ResponseEntity<>(customerNotification, HttpStatus.OK);
 		
+	}
+
+	@Override
+	@GetMapping("customer/{customerId}/notifications")
+	public ResponseEntity<List<CustomerNotification>> viewCustomerAllNotificationbyId(@PathVariable Integer customerId, @RequestParam String key) {
+		as.Auth(customerId, key);
+		return new ResponseEntity<List<CustomerNotification>>(cs.viewCustomerAllNotificationById(customerId), HttpStatus.OK);
+	}
+
+	@Override
+	@DeleteMapping("customer/{customerId}/deal")
+	public ResponseEntity<Deal> deleteDealOfferForCustomer(@RequestParam Integer dealId,@PathVariable Integer customerId) {
+		return new ResponseEntity<Deal>(cs.deleteCustomerDealById(customerId, dealId), HttpStatus.OK);
 	}
 		
 }

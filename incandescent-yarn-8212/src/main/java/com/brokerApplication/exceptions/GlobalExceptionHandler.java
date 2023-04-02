@@ -2,9 +2,11 @@ package com.brokerApplication.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
@@ -24,12 +26,12 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<String> exceptionExceptionHandler(Exception ex){
-		
-		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-		
-	}
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<String> exceptionExceptionHandler(Exception ex, WebRequest wbr){
+//		
+//		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+//		
+//	}
 	
 	@ExceptionHandler(AuthorizationException.class)
 	public ResponseEntity<String> authorizationExceptionHandler(AuthorizationException ex){
@@ -87,6 +89,9 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<String> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex){
+		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
 	
 }

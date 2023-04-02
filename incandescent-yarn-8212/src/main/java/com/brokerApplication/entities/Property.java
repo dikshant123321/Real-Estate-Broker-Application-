@@ -51,6 +51,7 @@ public class Property {
 	@NotEmpty
 	private String city;
 	
+//	@JsonProperty(access = Access.READ_ONLY)
 	@Enumerated(value = EnumType.STRING)
 	@NotNull(message = "Please specify property is for what purpose, in 'propertyStatus' field. (RENTABLE, SALEABLE or SALEABLE_AND_RENTABLE)")
 	private PropertyStatus propertyStatus;

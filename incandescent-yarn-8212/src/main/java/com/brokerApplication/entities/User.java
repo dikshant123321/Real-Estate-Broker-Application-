@@ -45,9 +45,9 @@ public class User{
 	@Column(unique = true)
 	private String mobile;
 	
-	@Enumerated(value = EnumType.STRING)
+//	@Enumerated(value = EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
-	private RoleType role;
+	private UserRoleType role;
 	
 	@NotNull
 	@NotEmpty
@@ -66,7 +66,7 @@ public class User{
 	public User() { }
 
 
-	public User(String username, String email, String mobile, RoleType role, String city, String password) {
+	public User(String username, String email, String mobile, UserRoleType role, String city, String password) {
 		this.username = username;
 		this.email = email;
 		this.mobile = mobile;
@@ -76,7 +76,7 @@ public class User{
 	}
 
 
-	public User(Integer userId, String username, String email, String mobile, RoleType role, String city,
+	public User(Integer userId, String username, String email, String mobile, UserRoleType role, String city,
 			String password) {
 		this.userId = userId;
 		this.username = username;

@@ -22,6 +22,7 @@ import com.brokerApplication.exceptions.AuthorizationException;
 import com.brokerApplication.services.AuthorizationService;
 import com.brokerApplication.services.BrokerServices;
 import com.brokerApplication.services.DealService;
+import com.brokerApplication.services.PropertyService;
 
 import jakarta.validation.Valid;
 
@@ -36,6 +37,9 @@ public class BrokerController implements BrokerControllerInterface {
 	
 	@Autowired
 	DealService ds;
+	
+	@Autowired
+	PropertyService ps;
 	
 	@Override
 	@PostMapping("/brokers/signup")
@@ -62,9 +66,13 @@ public class BrokerController implements BrokerControllerInterface {
 	
 	@Override
 	@PostMapping("/brokers/property/{brokerid}")
-	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer brokerid,@RequestParam String key,@Valid @RequestBody Property property) throws AuthorizationException {
+	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer brokerid,@RequestParam String key,@RequestBody Property property) throws AuthorizationException {
 		as.Auth(brokerid, key);	
-		return null;
+		System.out.println(property);
+		Property p = ps.addProperty(property, brokerid);
+		
+		
+		return new ResponseEntity<>(p, HttpStatus.CREATED);
 	}
 
 	@Override
@@ -75,10 +83,10 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@PostMapping("/brokers/deals/accept")
-	public ResponseEntity<Deal> acceptDeal(@RequestParam String key,@Valid @RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
-		as.Auth(brokerOffer.getBrokerId(), key);	
-		return new ResponseEntity<Deal>(ds.approveDealForBroker(brokerOffer),HttpStatus.ACCEPTED);
+	@PostMapping("/brokers/{brokerId}/deals/{dealId}/accept")
+	public ResponseEntity<Deal> acceptDeal(@PathVariable Integer brokerId, @PathVariable Integer dealId ,@RequestParam String key)throws AuthorizationException {
+		as.Auth(brokerId, key);	
+		return new ResponseEntity<Deal>(ds.approveDealForBroker(dealId, brokerId),HttpStatus.ACCEPTED);
 	}
 	
 	@Override
@@ -93,7 +101,7 @@ public class BrokerController implements BrokerControllerInterface {
 	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer brokerId,@RequestParam String key) throws AuthorizationException{
 		as.Auth(brokerId, key);	
 		Broker broker = brokerServices.viewBrokerById(brokerId);
-		return new ResponseEntity<>(broker,HttpStatus.FOUND);
+		return new ResponseEntity<>(broker,HttpStatus.OK);
 	}
 	
 	@Override
@@ -107,33 +115,40 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@GetMapping("/brokers/deals/{brokerid}")
-	public ResponseEntity<List<Deal>> getAllDealsOfBrokerHandler(@PathVariable Integer brokerid,@RequestParam String key)
+	@GetMapping("/brokers/deal/{deal}/{brokerId}")
+	public ResponseEntity<List<Deal>> getAllDealsOfBrokerHandler(@PathVariable Integer brokerId,@RequestParam String key)
 			throws AuthorizationException {
-		as.Auth(brokerid, key);	
-		return new ResponseEntity<List<Deal>>(brokerServices.viewAllDealsByBrokerId(brokerid),HttpStatus.OK);
+		as.Auth(brokerId, key);	
+		return new ResponseEntity<List<Deal>>(brokerServices.viewAllDealsByBrokerId(brokerId),HttpStatus.OK);
 	}
 	
 	@Override
-	@GetMapping("/brokers/property/{brokerid}")
+	@GetMapping("/brokers/property/{brokerId}")
 	public ResponseEntity<Property> getBrokerPropertyById(@PathVariable Integer brokerId,  @RequestParam String key, @RequestParam Integer propertyId) {
 		
 		as.Auth(brokerId, key);
 		Property property = brokerServices.getBrokerPropertyById(brokerId, propertyId);
 		
-		return new ResponseEntity<>(property, HttpStatus.FOUND);
+		return new ResponseEntity<>(property, HttpStatus.OK);
 		
 	}
 	
 	@Override
-	@GetMapping("/broker/notifications/{brokerId}")
+	@GetMapping("/broker/{brokerId}/notification")
 	public ResponseEntity<BrokerNotification> seeBrokerNotificationById(@PathVariable Integer brokerId, @RequestParam Integer notificationId,@RequestParam String key){
 	
 		as.Auth(brokerId, key);
 		BrokerNotification brokerNotification = brokerServices.seeBrokerNotificationById(brokerId, notificationId);
 		
-		return new ResponseEntity<>(brokerNotification, HttpStatus.FOUND);
+		return new ResponseEntity<>(brokerNotification, HttpStatus.OK);
 		
+	}
+
+	@Override
+	@GetMapping("/broker/{brokerId}/notifications")
+	public ResponseEntity<List<BrokerNotification>> viewAllNotifications(@PathVariable Integer brokerId, @RequestParam String key) {
+		as.Auth(brokerId, key);
+		return new ResponseEntity<List<BrokerNotification>>(brokerServices.viewAllBrokerNotificationById(brokerId), HttpStatus.OK);
 	}
 	
 }
