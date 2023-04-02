@@ -38,9 +38,9 @@ public class SingUpAndSingInController {
 		return new ResponseEntity<String>(uls.logOutFromAccount(key),HttpStatus.OK);
 	}
 	
-	@GetMapping("/CUSTOMER/{id}")
+	@GetMapping("/user/{id}")
 	public ResponseEntity<String> welcome(@PathVariable Integer id,@RequestHeader ("Auth") String key) throws LoginException, AuthorizationException{
-		String str=as.Auth(id,key)?"hii Customer":null;
+		String str=as.Auth(id,key)?"Verified":"Not Verified";
 		return new ResponseEntity<String>(str,HttpStatus.OK);
 	}
 	

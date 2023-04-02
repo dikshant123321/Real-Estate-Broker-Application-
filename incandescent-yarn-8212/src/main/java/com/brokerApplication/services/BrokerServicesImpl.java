@@ -9,6 +9,7 @@ import com.brokerApplication.entities.BrokerNotification;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.NotificationSatus;
 import com.brokerApplication.entities.Property;
+import com.brokerApplication.entities.UserRoleType;
 import com.brokerApplication.exceptions.BrokerException;
 import com.brokerApplication.exceptions.CustomerException;
 import com.brokerApplication.repositorys.BrokerDao;
@@ -25,6 +26,9 @@ public class BrokerServicesImpl implements BrokerServices{
 	
 	@Override
 	public Broker addBroker(Broker broker) {
+		if(broker == null) throw new BrokerException("Broker can not be null");
+		broker.setRole(UserRoleType.Broker);
+		if(broker.getRole()!=UserRoleType.Broker) throw new BrokerException("Broker can't be converted to customer");
 		Broker newBroker = brokerDao.save(broker);
 		return newBroker;
 	}
@@ -54,6 +58,7 @@ public class BrokerServicesImpl implements BrokerServices{
 	
 	@Override
 	public Broker editBroker(Broker broker) {
+		if(broker.getRole()!=UserRoleType.Broker) throw new BrokerException("Broker can't be converted to customer");
 		Optional<Broker> opt= brokerDao.findById(broker.getUserId());
 		
 		 if(opt.isPresent()) {
@@ -201,5 +206,11 @@ public class BrokerServicesImpl implements BrokerServices{
 		
 		throw new BrokerException("Broker with Id "+brokerId+" has no Notification with Id "+notificationId);
 	
+	}
+
+	@Override
+	public List<BrokerNotification> viewAllBrokerNotificationById(Integer brokerId) {
+		Broker broker = viewBrokerById(brokerId);
+		return broker.getNotifications();
 	}
 }

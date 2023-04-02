@@ -10,6 +10,7 @@ import com.brokerApplication.entities.CustomerNotification;
 import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.NotificationSatus;
 import com.brokerApplication.entities.Property;
+import com.brokerApplication.entities.UserRoleType;
 import com.brokerApplication.exceptions.BrokerException;
 import com.brokerApplication.exceptions.CustomerException;
 import com.brokerApplication.repositorys.CustomerNotificationRepository;
@@ -27,9 +28,9 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer addCustomer(Customer c) {
 
-
 		if(c == null) throw new CustomerException("Customer can not be null");
-		
+		c.setRole(UserRoleType.Customer);
+		if(c.getRole()!=UserRoleType.Customer) throw new CustomerException("Customer can't be converted to broker");
 		c = cr.save(c);
 		
 		return c;
@@ -40,6 +41,7 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer editCustomer(Customer c) {
 
 		if(c == null) throw new CustomerException("Customer can not be null");
+		if(c.getRole()!=UserRoleType.Customer) throw new CustomerException("Customer can't be converted to broker");
 		
 		Optional<Customer> opt = cr.findById(c.getUserId());
 		
@@ -196,8 +198,6 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		Customer customer = viewCustomerById(customerId);
 		
-		//Verify
-		
 		Deal updatedDeal = null;
 		
 		for(Deal d: customer.getListOfDeals()) {
@@ -292,6 +292,14 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		throw new CustomerException("Customer with Id "+customerId+" has no Notification with Id "+notificationId);
 	
+	}
+
+	@Override
+	public List<CustomerNotification> viewCustomerAllNotificationById(Integer customerId) {
+		
+		Customer customer = viewCustomerById(customerId);
+		
+		return customer.getNotifications();
 	}
 	
 }

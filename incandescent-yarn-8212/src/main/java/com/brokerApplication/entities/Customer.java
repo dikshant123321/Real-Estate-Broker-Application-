@@ -40,7 +40,7 @@ public class Customer extends User{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
 	private List<Deal> listOfDeals;
 
-	public Customer(String username, String email, String mobile, RoleType role, String city, String password,String customerName) {
+	public Customer(String username, String email, String mobile, UserRoleType role, String city, String password,String customerName) {
 		super(username, email, mobile, role, city, password);
 		CustomerName = customerName;
 	}

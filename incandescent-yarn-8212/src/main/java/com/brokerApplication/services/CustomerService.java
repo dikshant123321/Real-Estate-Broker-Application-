@@ -14,10 +14,11 @@ public interface CustomerService {
 	public Customer removeCustomer(Integer id);
 	public Customer viewCustomerById(Integer id);
 	public CustomerNotification seeCustomerNotificationByBy(Integer customerId, Integer notificationId);
+	public List<CustomerNotification> viewCustomerAllNotificationById(Integer customerId);
 	public List<Property> viewAllProptiesByCustomerId(Integer id);
 	public List<Deal> viewAllDealsByCustomerId(Integer id);
 	public Property viewCustomerPropertyById(Integer customerId, Integer propertyId);
-
+	
 	public List<Customer> viewAllCustomers();
 
 	public Property addNewPropertyById(Integer customerId, Property property);

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,6 @@ import com.brokerApplication.services.BillingService;
 import com.brokerApplication.services.CustomerService;
 import com.brokerApplication.services.DealService;
 import com.brokerApplication.services.PropertyService;
-
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -49,8 +48,7 @@ public class CustomerController implements CustomerControllerInterface{
 	@Override
 	@PostMapping("/customers/signup")
 	public ResponseEntity<Customer> createCustomerAccount(@Valid @RequestBody Customer customer) {
-		
-		
+
 		Customer newCustomer = cs.addCustomer(customer);
 		return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
 		
@@ -67,21 +65,21 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/edit")
-	public ResponseEntity<Customer> editCustomerProfile(@RequestBody Customer customer, @RequestParam String Key) {
+	public ResponseEntity<Customer> editCustomerProfile(@Valid @RequestBody Customer customer, @RequestParam String Key) {
 		
 		as.Auth(customer.getUserId(),Key);
 		return new  ResponseEntity<Customer>(cs.editCustomer(customer),HttpStatus.OK);
 		
 	}
 	
-	@Override
-	@PostMapping("/customers/delete/{customerId}")
-	public ResponseEntity<Customer> deleteCustomerAccountById(@PathVariable Integer customerId,@RequestParam  String Key) {
-		
-		as.Auth(customerId,Key);
-		return new  ResponseEntity<Customer>(cs.removeCustomer(customerId),HttpStatus.OK);
-		
-	}
+//	@Override
+//	@PostMapping("/customers/delete/{customerId}")
+//	public ResponseEntity<Customer> deleteCustomerAccountById(@PathVariable Integer customerId,@RequestParam  String Key) {
+//		
+//		as.Auth(customerId,Key);
+//		return new  ResponseEntity<Customer>(cs.removeCustomer(customerId),HttpStatus.OK);
+//		
+//	}
 	
 	@Override
 	@GetMapping("/customers/properties/{id}")
@@ -93,7 +91,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 	
 	@Override
-	@GetMapping("/customers/deals/{id}")
+	@GetMapping("/customers/{customerId}/deals/{id}")
 	public ResponseEntity<List<Deal>> viewAllDealsByCustomerId(@PathVariable Integer customerId,@RequestParam  String Key) {
 		
 		as.Auth(customerId,Key);
@@ -126,7 +124,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/addDeal")
-	public ResponseEntity<Deal> addDealOfferFromCustomer(@RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
+	public ResponseEntity<Deal> addDealOfferFromCustomer(@Valid @RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
 		
 		as.Auth(customerOffer.getCustomerId(),Key);
 		return new ResponseEntity<Deal>(ds.addDealOfferFromCustomer(customerOffer),HttpStatus.OK);
@@ -135,7 +133,6 @@ public class CustomerController implements CustomerControllerInterface{
 	@Override
 	@PostMapping("/customers/editDeal/{dealId}")
 	public ResponseEntity<Deal> editDealOfferFromCustomerByDealId(@PathVariable Integer dealId,@RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
-		
 		as.Auth(customerOffer.getCustomerId(),Key);
 		return new ResponseEntity<Deal>(ds.editDealOfferFromCustomerByDealId(dealId, customerOffer),HttpStatus.OK);
 		
@@ -161,7 +158,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/payBill")
-	public ResponseEntity<Deal> payBillForDeal(@RequestBody PaymentDetails paymentDetails, @RequestParam String Key) {
+	public ResponseEntity<Deal> payBillForDeal(@Valid @RequestBody PaymentDetails paymentDetails, @RequestParam String Key) {
 		
 		as.Auth(paymentDetails.getCustomerId(), Key);
 		return new ResponseEntity<Deal>(bls.payBillForDeal(paymentDetails) ,HttpStatus.OK);
@@ -169,7 +166,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 
 	@Override
-	@GetMapping("customer/{customerId}/notifications")
+	@GetMapping("customer/{customerId}/notification")
 	public ResponseEntity<CustomerNotification> seeCustomerNotificationByBy(@PathVariable Integer customerId, @RequestParam Integer notificationId,
 			@RequestParam String Key) {
 		
@@ -177,6 +174,19 @@ public class CustomerController implements CustomerControllerInterface{
 		CustomerNotification customerNotification = cs.seeCustomerNotificationByBy(customerId, notificationId);		
 		return new ResponseEntity<>(customerNotification, HttpStatus.OK);
 		
+	}
+
+	@Override
+	@GetMapping("customer/{customerId}/notifications")
+	public ResponseEntity<List<CustomerNotification>> viewCustomerAllNotificationbyId(@PathVariable Integer customerId, @RequestParam String key) {
+		as.Auth(customerId, key);
+		return new ResponseEntity<List<CustomerNotification>>(cs.viewCustomerAllNotificationById(customerId), HttpStatus.OK);
+	}
+
+	@Override
+	@DeleteMapping("customer/{customerId}/deal")
+	public ResponseEntity<Deal> deleteDealOfferForCustomer(@RequestParam Integer dealId,@PathVariable Integer customerId) {
+		return new ResponseEntity<Deal>(cs.deleteCustomerDealById(customerId, dealId), HttpStatus.OK);
 	}
 		
 }

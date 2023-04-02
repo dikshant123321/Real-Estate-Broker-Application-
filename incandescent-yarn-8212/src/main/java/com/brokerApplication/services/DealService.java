@@ -19,10 +19,11 @@ public interface DealService {
 	
 	//admin use
 	public List<Deal> getAllDeals();
+	public Deal getDealById(Integer dealId);
 	
 	//broker use
 	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer);
-	public Deal approveDealForBroker(BrokerOffer brokerOffer);
+	public Deal approveDealForBroker(Integer dealId, Integer brokerId);
 	public Deal abandonedDealForBroker(Integer dealId, Integer brokerId);
 
 	//internal use	

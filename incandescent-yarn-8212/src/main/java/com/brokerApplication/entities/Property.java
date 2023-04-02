@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,15 +40,19 @@ public class Property {
 	@NotBlank
 	@NotEmpty
 	private String address;
+	
 	@NotNull
 	@NotBlank
 	@NotEmpty
 	private String street;
+	
 	@NotNull
 	@NotBlank
 	@NotEmpty
 	private String city;
 	
+//	@JsonProperty(access = Access.READ_ONLY)
+	@Enumerated(value = EnumType.STRING)
 	@NotNull(message = "Please specify property is for what purpose, in 'propertyStatus' field. (RENTABLE, SALEABLE or SALEABLE_AND_RENTABLE)")
 	private PropertyStatus propertyStatus;
 	

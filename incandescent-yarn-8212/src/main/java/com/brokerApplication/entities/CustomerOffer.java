@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +26,7 @@ public class CustomerOffer {
 	private Double dealCost;
 	
 	@NotNull(message = "Deal type cannot be Null")
+	@Enumerated(value = EnumType.STRING)
 	private DealType dealType;
 	
 	@NotNull(message = "Customer cannot be Null.")

@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,9 +43,11 @@ public class Deal {
 	@NotNull(message = "Deal cost cannot be Null.")
 	private Double dealCost;
 	
+	@Enumerated(value = EnumType.STRING)
 	@NotNull(message = "Deal type cannot be Null")
 	private DealType dealType;
 	
+	@Enumerated(value = EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
 	private DealStatus dealStatus; 
 	
@@ -74,6 +79,7 @@ public class Deal {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JsonProperty(access = Access.READ_ONLY)
+	@JsonIgnore
 	private Bill bill;
 	
 	
