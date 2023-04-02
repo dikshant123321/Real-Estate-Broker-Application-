@@ -4,6 +4,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ public class Bill {
 	@OneToOne
 	private Deal deal;
 	private Double TotalPayableAmout;
+	@Enumerated(value = EnumType.STRING)
 	private BillStatus billStatus;
 	
 	public Bill(Deal deal) {

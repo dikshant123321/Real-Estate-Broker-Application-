@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,6 +44,7 @@ public class BrokerNotification {
 	private String notificationMessage;
 	
 	@NotNull
+	@Enumerated(value = EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
 	private NotificationSatus notificationSatus;
 

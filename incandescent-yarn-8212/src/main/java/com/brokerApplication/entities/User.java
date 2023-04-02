@@ -1,6 +1,8 @@
 
 package com.brokerApplication.entities;
 
+import org.hibernate.validator.constraints.URL;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -32,14 +34,19 @@ public class User{
 	@Column(unique = true)
 	private String username;
 	
+	@URL
+	private String profilePhoto;
+	
 	@Email
+	@Column(unique = true)
 	private String email;
 	
 	@Pattern(regexp = "^[0-9]{10}$", message = "Please enter currect mobile number.")
+	@Column(unique = true)
 	private String mobile;
-	@Enumerated(value = EnumType.STRING)
 	
-	@NotNull
+	@Enumerated(value = EnumType.STRING)
+	@JsonProperty(access = Access.READ_ONLY)
 	private RoleType role;
 	
 	@NotNull
