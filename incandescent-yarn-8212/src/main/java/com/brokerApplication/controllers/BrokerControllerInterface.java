@@ -21,7 +21,8 @@ public interface BrokerControllerInterface {
 	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer id,@RequestParam String key);
 	public ResponseEntity<Broker> updateBrokerByIdHandler(@PathVariable Integer id, Broker broker);
 //	public ResponseEntity<Broker> deleteBrokerByIdHandler(@PathVariable Integer id);
-	public ResponseEntity<BrokerNotification> seeBrokerNotificationById(@PathVariable Integer brokerId, @RequestParam Integer notificationId,@RequestHeader("Auth") String key);
+	public ResponseEntity<BrokerNotification> seeBrokerNotificationById(@PathVariable Integer brokerId, @RequestParam Integer notificationId,@RequestParam String key);
+	public ResponseEntity<List<BrokerNotification>> viewAllNotifications(@PathVariable Integer brokerId, @RequestParam String key);
 
 	//property.service
 	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer broid, @RequestParam String key,@RequestBody Property property);
@@ -31,8 +32,8 @@ public interface BrokerControllerInterface {
 
 	//Deal manager handlers
 	//Deal service layer
-	public ResponseEntity<Deal> negotiateDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer bf);
-	public ResponseEntity<Deal> acceptDeal(@RequestHeader("Auth") String key,@RequestBody BrokerOffer brokerOffer);
+	public ResponseEntity<Deal> negotiateDeal(@RequestParam String key,@RequestBody BrokerOffer bf);
+	public ResponseEntity<Deal> acceptDeal(@PathVariable Integer brokerId, @PathVariable Integer dealId ,@RequestParam String key);
 	public ResponseEntity<Deal> rejectDeal(@PathVariable Integer brokerid,@RequestParam String key,@PathVariable Integer dealid);
 	
 }

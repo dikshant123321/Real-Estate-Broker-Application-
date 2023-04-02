@@ -25,6 +25,6 @@ public class LoggedSession {
 	private Integer userId;
 	private String uniquekey;
 	@Enumerated(value = EnumType.STRING)
-	private RoleType role;
+	private UserRoleType role;
 	private LocalDateTime localDateTime;
 }

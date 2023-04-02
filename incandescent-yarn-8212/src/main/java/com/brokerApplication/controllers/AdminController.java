@@ -42,7 +42,7 @@ public class AdminController implements AdminControllerInterface{
 	@GetMapping("/admin/brokers")
 	public ResponseEntity<List<Broker>> getAllBrokersHandler(){
 		List<Broker> brokers= brokerServices.listAllBrokers();
-		return new ResponseEntity<>(brokers,HttpStatus.FOUND);
+		return new ResponseEntity<>(brokers,HttpStatus.OK);
 	}
 	
 	
@@ -51,7 +51,7 @@ public class AdminController implements AdminControllerInterface{
 	@GetMapping("/admin/property/propertySchedule")
 	public ResponseEntity<List<PropertySchedule>> getScheduleOfPropertyById(@RequestParam Integer propertyId) {
 		
-		return new ResponseEntity<>(pss.getScheduleOfPropertyById(propertyId), HttpStatus.FOUND);
+		return new ResponseEntity<>(pss.getScheduleOfPropertyById(propertyId), HttpStatus.OK);
 		
 	}
 
@@ -60,7 +60,7 @@ public class AdminController implements AdminControllerInterface{
 	@GetMapping("admin/property/propertySchedules")
 	public ResponseEntity<List<PropertySchedule>> getAllPropertySchedules() {
 		
-		return new ResponseEntity<>(pss.getAllPropertySchedules(), HttpStatus.FOUND);
+		return new ResponseEntity<>(pss.getAllPropertySchedules(), HttpStatus.OK);
 		
 	}
 
@@ -69,7 +69,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/customers")
 	public ResponseEntity<List<Customer>> viewAllCustomers() {
-		return new ResponseEntity<>(cs.viewAllCustomers(), HttpStatus.FOUND);
+		return new ResponseEntity<>(cs.viewAllCustomers(), HttpStatus.OK);
 	}
 
 
@@ -77,7 +77,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/deals")
 	public ResponseEntity<List<Deal>> getAllDeals() {
-		return new ResponseEntity<>(ds.getAllDeals(), HttpStatus.FOUND);
+		return new ResponseEntity<>(ds.getAllDeals(), HttpStatus.OK);
 	}
 
 
@@ -85,7 +85,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/property")
 	public ResponseEntity<Property> viewPropertyById(Integer propertyId) throws PropertyException {
-		return new ResponseEntity<>(ps.viewPropertyById(propertyId), HttpStatus.FOUND);
+		return new ResponseEntity<>(ps.viewPropertyById(propertyId), HttpStatus.OK);
 	}
 
 
@@ -93,7 +93,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/properties")
 	public ResponseEntity<List<Property>> viewListOfProperties() throws PropertyException {
-		return new ResponseEntity<>(ps.viewListOfProperties(), HttpStatus.FOUND);
+		return new ResponseEntity<>(ps.viewListOfProperties(), HttpStatus.OK);
 	}
 
 
@@ -101,7 +101,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/broker/{brokerId}")
 	public ResponseEntity<Broker> getBrokerById(Integer brokerId) {
-		return new ResponseEntity<>(brokerServices.viewBrokerById(brokerId), HttpStatus.FOUND);
+		return new ResponseEntity<>(brokerServices.viewBrokerById(brokerId), HttpStatus.OK);
 	}
 
 
@@ -109,7 +109,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/customer/{customerId}")
 	public ResponseEntity<Customer> getCustomerById(Integer customerId) {
-		return new ResponseEntity<>(cs.viewCustomerById(customerId), HttpStatus.FOUND);
+		return new ResponseEntity<>(cs.viewCustomerById(customerId), HttpStatus.OK);
 	}
 
 
@@ -117,7 +117,7 @@ public class AdminController implements AdminControllerInterface{
 	@Override
 	@GetMapping("/admin/deal/{dealId}")
 	public ResponseEntity<Deal> getDealById(Integer dealId) {
-		return new ResponseEntity<>(ds.getDealbyID(dealId), HttpStatus.FOUND);
+		return new ResponseEntity<>(ds.getDealbyID(dealId), HttpStatus.OK);
 	}
 
 

@@ -1,12 +1,13 @@
 package com.brokerApplication.entities;
 
 public enum PropertyStatus {
-
-	RESERVED,
-	SOLD,
 	
+	SALEABLE_AND_RENTABLE,
 	SALEABLE,
 	RENTABLE,
-	SALEABLE_AND_RENTABLE;
+
+	RESERVED,
+	SOLD;
+	
 	
 }

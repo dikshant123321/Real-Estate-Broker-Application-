@@ -23,9 +23,11 @@ public class Bill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer billId;
+	
 	@OneToOne
 	private Deal deal;
 	private Double TotalPayableAmout;
+	
 	@Enumerated(value = EnumType.STRING)
 	private BillStatus billStatus;
 	

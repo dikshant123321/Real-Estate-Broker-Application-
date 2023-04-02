@@ -18,6 +18,7 @@ public interface BrokerServices {
 	public List<Deal> viewAllDealsByBrokerId(Integer brokerId);
 	public Property getBrokerPropertyById(Integer brokerId ,Integer propertyId);
 	public BrokerNotification seeBrokerNotificationById(Integer brokerId, Integer notificationId);
+	public List<BrokerNotification> viewAllBrokerNotificationById(Integer brokerId);
 	
 	//for admin
 	public List<Broker> listAllBrokers();

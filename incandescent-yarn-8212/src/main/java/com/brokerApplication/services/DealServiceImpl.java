@@ -78,7 +78,7 @@ public class DealServiceImpl implements DealService{
 	public Deal addDealOfferFromCustomer(CustomerOffer customerOffer) {
 		
 		Broker broker = bs.viewBrokerById(customerOffer.getBrokerId());
-		Customer customer = cs.viewCustomerById(customerOffer.getPropertyId());
+		Customer customer = cs.viewCustomerById(customerOffer.getCustomerId());
 
 		
 		Property property = bs.getBrokerPropertyById(broker.getUserId(), customerOffer.getPropertyId());
@@ -122,6 +122,8 @@ public class DealServiceImpl implements DealService{
 		deal.setDealStatus(DealStatus.PENDING);
 		deal.setDealDateTime(LocalDateTime.now());
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		broker.getListOfDeals().add(deal);		
 		customer.getListOfDeals().add(deal);
 		
@@ -131,7 +133,7 @@ public class DealServiceImpl implements DealService{
 		
 		bs.sendNotificationToBrokerAboutDeal(broker.getUserId(), brokerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 	}
 	
 	private boolean isPropertySuitableForDeal(Property property, DealType dealType) {
@@ -208,6 +210,8 @@ public class DealServiceImpl implements DealService{
 		deal.setDealStatus(DealStatus.PENDING);
 		deal.setDealDateTime(LocalDateTime.now());
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		bs.editBrokerDealById(broker.getUserId(), deal);
 		cs.editCustomerDealById(customer.getUserId(), deal);
 		
@@ -217,7 +221,7 @@ public class DealServiceImpl implements DealService{
 		
 		bs.sendNotificationToBrokerAboutDeal(broker.getUserId(), brokerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 		
 	}
 	
@@ -245,6 +249,8 @@ public class DealServiceImpl implements DealService{
 		Bill bill = new Bill(deal);
 		deal.setBill(bill);
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		bs.editBrokerDealById(broker.getUserId(), deal);
 		cs.editCustomerDealById(customer.getUserId(), deal);
 		
@@ -254,7 +260,7 @@ public class DealServiceImpl implements DealService{
 		
 		bs.sendNotificationToBrokerAboutDeal(broker.getUserId(), brokerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 	}
 	
 	@Override
@@ -279,6 +285,8 @@ public class DealServiceImpl implements DealService{
 		deal.setCustomerAgree(false);
 		deal.setBrokerAgree(false);
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		bs.editBrokerDealById(broker.getUserId(), deal);
 		cs.editCustomerDealById(customer.getUserId(), deal);
 		
@@ -288,7 +296,7 @@ public class DealServiceImpl implements DealService{
 		
 		bs.sendNotificationToBrokerAboutDeal(broker.getUserId(), brokerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 	}
 	
 	@Override
@@ -363,6 +371,8 @@ public class DealServiceImpl implements DealService{
 		deal.setCustomerAgree(false);
 		deal.setBrokerAgree(true);
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		bs.editBrokerDealById(broker.getUserId(), deal);	
 		cs.editCustomerDealById(customer.getUserId(), deal);
 		
@@ -372,26 +382,23 @@ public class DealServiceImpl implements DealService{
 		
 		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 
 	}
 	
 	
-	
 	@Override
-	public Deal approveDealForBroker(BrokerOffer brokerOffer)throws  DealException{
+	public Deal approveDealForBroker(Integer dealId, Integer brokerId)throws  DealException{
 	
-		Deal deal = getDealbyID(brokerOffer.getDealId());
+		Deal deal = getDealbyID(dealId);
 		if(deal.getDealStatus()!=DealStatus.PENDING) throw new DealException("The expected status for the Deal was to be: PENDING but instead found "+deal.getDealStatus()+".");
 		
-		Broker broker = bs.viewBrokerById(brokerOffer.getBrokerId());
+		Broker broker = bs.viewBrokerById(brokerId);
 		if(!deal.getBroker().equals(broker)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Broker with Id: "+broker.getUserId());
 		
-		Customer customer = cs.viewCustomerById(brokerOffer.getCustomerId());
-		if(!deal.getCustomer().equals(customer)) throw new DealException("No Deal with Id: "+deal.getDealid()+" is related to Customer with Id: "+customer.getUserId());
-		
-		Property property = ps.viewPropertyById(brokerOffer.getPropertyId());
-		if(!deal.getProperty().equals(property)) throw new DealException("No Deal with Id: "+deal.getDealid()+" contains Property with Id: "+property.getPropertyId());
+		Customer customer = deal.getCustomer();
+				
+		Property property = deal.getProperty();
 		if(!property.getIsAvailable()) throw new DealException("Property not avaliable for sale or rest");
 		isPropertySuitableForDeal(property, deal.getDealType());
 		pss.checkIsPropertyScheduledByPropertyIdAndBetweenStartDateAndEndDate(property.getPropertyId(), deal.getRentStartPeriod(), deal.getRentEndPeriod());
@@ -405,6 +412,8 @@ public class DealServiceImpl implements DealService{
 		Bill bill = new Bill(deal);
 		deal.setBill(bill);
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		bs.editBrokerDealById(broker.getUserId(), deal);
 		cs.editCustomerDealById(customer.getUserId(), deal);
 		
@@ -414,7 +423,7 @@ public class DealServiceImpl implements DealService{
 		
 		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 		
 	}
 	
@@ -441,6 +450,8 @@ public class DealServiceImpl implements DealService{
 		deal.setCustomerAgree(false);
 		deal.setBrokerAgree(false);
 		
+		Deal updatedDeal = dr.save(deal);
+		
 		bs.editBrokerDealById(broker.getUserId(), deal);
 		cs.editCustomerDealById(customer.getUserId(), deal);
 		
@@ -451,7 +462,7 @@ public class DealServiceImpl implements DealService{
 		
 		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
 		
-		return dr.save(deal);
+		return updatedDeal;
 	}
 
 	@Override
@@ -495,6 +506,8 @@ public class DealServiceImpl implements DealService{
 		Broker broker = deal.getBroker();
 		Customer customer = deal.getCustomer();
 		
+		
+		
 		String notificationMessageForBroker = "Deal successful between you and "+customer.getCustomerName();
 		BrokerNotification brokerNotification = new BrokerNotification(broker.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessageForBroker);
 		bs.sendNotificationToBrokerAboutDeal(broker.getUserId(), brokerNotification);
@@ -504,7 +517,13 @@ public class DealServiceImpl implements DealService{
 		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
 		
 		deal.setDealStatus(DealStatus.FULFILLED);
-		return dr.save(deal);
+		
+		Deal updatedDeal = dr.save(deal);
+		
+		bs.editBrokerDealById(broker.getUserId(), deal);
+		cs.editCustomerDealById(customer.getUserId(), deal);
+		
+		return updatedDeal;
 	}
 
 }
