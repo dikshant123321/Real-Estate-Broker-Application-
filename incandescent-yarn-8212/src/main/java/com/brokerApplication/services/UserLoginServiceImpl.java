@@ -26,19 +26,17 @@ public class UserLoginServiceImpl implements UserLoginService {
 	LoggedSessionRepo lsr;
 	
 	@Override
-	public String logIntoAccount(LoginCredential dto) throws LoginException {
-		User existingUser= ur.findByusername(dto.getUsername());		
-		if(existingUser == null) throw new LoginException("Please Enter a valid Username");
-		Optional<LoggedSession> validLoggedSessionOpt =  lsr.findById(existingUser.getUserId());
-		if(validLoggedSessionOpt.isPresent()) throw new LoginException("User already Logged");
-		if(existingUser.getPassword().equals(dto.getPassword())) {
-	
+	public LoggedSession logIntoAccount(LoginCredential dto) throws LoginException {
+			User existingUser= ur.findByusername(dto.getUsername());		
+			if(existingUser == null) throw new LoginException("Please Enter a valid Username");
+			if(!existingUser.getPassword().equals(dto.getPassword())) throw new LoginException("Please Enter a valid password");
+			Optional<LoggedSession> validLoggedSessionOpt =  lsr.findById(existingUser.getUserId());
+			if(validLoggedSessionOpt.isPresent()) return validLoggedSessionOpt.get();
 			String key= existingUser.getRole()+"."+generateRandomChars(16);
-			LoggedSession currentUserSession = new LoggedSession(existingUser.getUserId(),key,LocalDateTime.now());
+			LoggedSession currentUserSession = new LoggedSession(existingUser.getUserId(),key,existingUser.getRole(),LocalDateTime.now());
 			lsr.save(currentUserSession);
-			return currentUserSession.toString();
-		}
-		else throw new LoginException("Please Enter a valid password");
+			return currentUserSession;
+	
 	}
 	public String generateRandomChars(int length) {
 		String candidateChars="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

@@ -44,10 +44,10 @@ public class Customer extends User{
 		super(username, email, mobile, role, city, password);
 		CustomerName = customerName;
 	}
-	
+  
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customerId")
 	private List<CustomerNotification> notifications;
-
+  
 }
