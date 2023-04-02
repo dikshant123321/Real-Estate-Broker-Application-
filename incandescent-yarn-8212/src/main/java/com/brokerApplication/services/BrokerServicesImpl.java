@@ -2,26 +2,26 @@ package com.brokerApplication.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.brokerApplication.entities.Broker;
-
-
-import com.brokerApplication.entities.Customer;
-
+import com.brokerApplication.entities.BrokerNotification;
 import com.brokerApplication.entities.Deal;
+import com.brokerApplication.entities.NotificationSatus;
 import com.brokerApplication.entities.Property;
 import com.brokerApplication.exceptions.BrokerException;
 import com.brokerApplication.exceptions.CustomerException;
 import com.brokerApplication.repositorys.BrokerDao;
+import com.brokerApplication.repositorys.BrokerNotificationRepository;
 
 @Service
 public class BrokerServicesImpl implements BrokerServices{
 	
 	@Autowired
 	private BrokerDao brokerDao;
+	
+	@Autowired
+	private BrokerNotificationRepository bnr;
 	
 	@Override
 	public Broker addBroker(Broker broker) {
@@ -77,7 +77,7 @@ public class BrokerServicesImpl implements BrokerServices{
 	
 
 	@Override
-	public List<Deal> listBrokerHandlerDeals(Integer brokerId) {
+	public List<Deal> viewAllDealsByBrokerId(Integer brokerId) {
 		Broker bro=viewBrokerById(brokerId);
 		List<Deal> list=bro.getListOfDeals();
 		if(list.isEmpty()) throw new BrokerException("Hello "+bro.getBrokerName()+"/n"+" .. No Deal Listed ");
@@ -148,5 +148,58 @@ public class BrokerServicesImpl implements BrokerServices{
 		return deal;
 		
 
+	}
+
+	@Override
+	public Deal deleteBrokerDealById(Integer brokerId, Integer dealId) {
+
+		Broker broker = viewBrokerById(brokerId);
+		
+		for(Deal d: broker.getListOfDeals()) {
+			
+			if(d.getDealid() == dealId) {
+				
+				broker.getListOfDeals().remove(d);
+				brokerDao.save(broker);
+				return d;
+				
+			}
+			
+		}
+		
+		throw new BrokerException("Broker with Id: "+brokerId+" does not have Deal with id: "+dealId);
+		
+	}
+	
+	@Override
+	public void sendNotificationToBrokerAboutDeal(Integer brokerId, BrokerNotification brokerNotification) {
+		
+		Broker broker = viewBrokerById(brokerId);
+		
+		broker.getNotifications().add(brokerNotification);
+		
+		brokerDao.save(broker);
+		
+	}
+	
+	@Override
+	public BrokerNotification seeBrokerNotificationById(Integer brokerId, Integer notificationId) {
+		
+		Broker broker = viewBrokerById(brokerId);
+		
+		for(BrokerNotification bn: broker.getNotifications()) {
+			
+			if(bn.getBrokerNotificationId() == notificationId) {
+				
+				bn.setNotificationSatus(NotificationSatus.SEEN);
+				brokerDao.save(broker);
+				
+				return bnr.save(bn);
+			}
+			
+		}
+		
+		throw new BrokerException("Broker with Id "+brokerId+" has no Notification with Id "+notificationId);
+	
 	}
 }

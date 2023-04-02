@@ -2,10 +2,17 @@ package com.brokerApplication.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,34 +26,28 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "customerId")
 public class Customer extends User{
 
-	 private String CustomerName;
-	 
-	 @OneToMany(mappedBy = "customer")   						// added
+	@NotEmpty
+	@NotBlank
+	@NotNull
+	@Pattern(regexp = "^[a-zA-Z ]{3,25}$", message = "Customer's name's length should not be less than 3 and more than 25 characters")
+	private String CustomerName;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "customer")
+	private List<Property> listOfProperties;
+	
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+	private List<Deal> listOfDeals;
 
-//	 @JoinColumn(name = "customer")   								// added
-	 private List<Property> listOfProperties;
-	 
-	 @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer") 	// added
-	 private List<Deal> listOfDeals;
-
-	 
-	 
-	 
 	public Customer(String username, String email, String mobile, RoleType role, String city, String password,String customerName) {
 		super(username, email, mobile, role, city, password);
 		CustomerName = customerName;
 	}
-
-
-
-//	public Customer(String username, String email, String mobile, String role, String city, String password,
-//			String customerName) {
-//		super(username, email, mobile, role, city, password);
-//		CustomerName = customerName;
-//	}
-	 
-	 
-
-//	private List<CustomerNotification> notifications;
-
+  
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customerId")
+	private List<CustomerNotification> notifications;
+  
 }

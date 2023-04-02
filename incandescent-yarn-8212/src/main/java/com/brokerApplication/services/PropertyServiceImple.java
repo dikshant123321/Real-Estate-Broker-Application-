@@ -1,15 +1,24 @@
 package com.brokerApplication.services;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brokerApplication.entities.Broker;
+import com.brokerApplication.entities.Deal;
 import com.brokerApplication.entities.Property;
+import com.brokerApplication.entities.PropertySchedule;
+import com.brokerApplication.entities.PropertyStatus;
 import com.brokerApplication.exceptions.PropertyException;
 import com.brokerApplication.repositorys.PropertyRepository;
+import com.brokerApplication.repositorys.PropertyScheduleRepository;
 
 @Service
 public class PropertyServiceImple implements PropertyService{
@@ -20,6 +29,11 @@ public class PropertyServiceImple implements PropertyService{
 	@Autowired
     private BrokerServices bs;
 	
+	@Autowired
+	private CustomerService cs;
+	
+	@Autowired
+	private PropertyScheduleRepository psr;
 	
 	@Override
 	public Property addProperty(Property property, Integer brokerId) {
@@ -35,7 +49,7 @@ public class PropertyServiceImple implements PropertyService{
 	}
 
 	@Override
-	public Property editProperty(Property property) throws PropertyException {
+	public Property editPropertyById(Property property) throws PropertyException {
 	     Optional<Property> opt=propertyRepository.findById(property.getPropertyId());
 	     if(opt.isPresent())
 	     { 
@@ -48,7 +62,7 @@ public class PropertyServiceImple implements PropertyService{
 	}
 
 	@Override
-	public List<Property> ListAllPropertys() throws PropertyException {
+	public List<Property> viewListOfProperties() throws PropertyException {
 		List<Property> property=propertyRepository.findAll();
 		
 		if(!property.isEmpty())
@@ -85,8 +99,63 @@ public class PropertyServiceImple implements PropertyService{
 		
 		return st;
 	}
-	
-	
-	
+
+	@Override
+	public void rentPropertyById(Deal deal) {
+		
+		
+		
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+		
+		Property property = deal.getProperty();
+		
+		PropertyStatus previousStatus = property.getPropertyStatus();
+		
+		long startDelay = ChronoUnit.MINUTES.between(deal.getRentStartPeriod(), LocalDate.now())*60;
+		
+		scheduler.schedule(()->{
+			//rent started
+			cs.addNewPropertyById(deal.getCustomer().getUserId(), property);
+        	
+    		property.setPropertyStatus(PropertyStatus.RESERVED);
+    		property.setIsAvailable(false);
+    		property.setCustomer(deal.getCustomer());
+    		
+    		propertyRepository.save(property);
+    		
+		}, startDelay, TimeUnit.SECONDS);
+		
+		long endDelay = ChronoUnit.MINUTES.between(deal.getRentEndPeriod(), LocalDate.now())*60;
+        
+		scheduler.schedule(()->{
+			 //tasks to be done on ending day
+        	cs.removeCustomerPropertyById(deal.getDealid(), deal.getProperty().getPropertyId());
+        	
+        	property.setPropertyStatus(previousStatus);
+        	property.setIsAvailable(true);
+        	property.setCustomer(null);
+        	
+        	propertyRepository.save(property);
+    		
+		}, endDelay, TimeUnit.SECONDS);
+        
+		psr.save(new PropertySchedule(property.getPropertyId(), deal.getRentStartPeriod(), deal.getRentEndPeriod(), PropertyStatus.RESERVED));
+		
+	}
+
+	@Override
+	public Property buyPropertyById(Deal deal) {
+		
+		Property property = deal.getProperty();
+		
+    	cs.addNewPropertyById(deal.getCustomer().getUserId(), property);
+    	
+		property.setPropertyStatus(PropertyStatus.SOLD);
+		property.setIsAvailable(false);
+		property.setCustomer(deal.getCustomer());
+		
+		return propertyRepository.save(property);
+
+	}
 	
 }

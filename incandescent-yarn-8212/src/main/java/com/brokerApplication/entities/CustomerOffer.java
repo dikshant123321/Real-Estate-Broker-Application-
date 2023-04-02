@@ -1,5 +1,6 @@
 package com.brokerApplication.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,11 +37,11 @@ public class CustomerOffer {
 	
 	//added----
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime startPeriod;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
+	private LocalDate startPeriod;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime endPeriod;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
+	private LocalDate endPeriod;
 	
 	@AssertTrue(message = "Start and end period must be specified for rent deals")
 	private boolean isValidRentDeal() {
@@ -49,4 +50,5 @@ public class CustomerOffer {
 	    }
 	    return true;
 	}
+	
 }
