@@ -33,6 +33,7 @@ public class User{
 	
 //	@URL
 	private String profilePhoto;
+
 	
 	@Email
 	@Column(unique = true)

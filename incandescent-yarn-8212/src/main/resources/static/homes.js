@@ -42,8 +42,8 @@ function validateLoginForm(event) {
 					alert("Successfully logged in");
 			 		let dataToSend = { userid:data.userId,key:data.uniquekey };
        				let queryParams = new URLSearchParams(dataToSend).toString(); // convert object to URL string
-					if(data.role=="Broker") window.open("/broker?" + queryParams); // navigate to destination page
-			       	else window.open("/customer?" + queryParams); // navigate to destination page
+					if(data.role=="Broker") window.open("http://localhost:8088/swagger-ui/index.html?" + queryParams); // navigate to destination page
+			       	else window.open("http://localhost:8088/swagger-ui/index.html?" + queryParams); // navigate to destination page
 			       	
 		}
 		else{

@@ -69,7 +69,7 @@ public class Property {
 	
 	@ManyToOne
 	@JoinColumn(name = "broker")
-	@JsonIgnore
+//	@JsonIgnore
 	Broker broker;
 	
 	@AssertTrue(message = "Price fields are not satisfied, make sure to provide value of rentPricePerNight if propertyStatus is RENTABLE, salePrice if propertyStatus is SALEABLE, and both if the propertyStatus is SALEABLE_AND_RENTABLE.")
