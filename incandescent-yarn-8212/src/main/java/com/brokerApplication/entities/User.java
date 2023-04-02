@@ -45,6 +45,7 @@ public class User{
 	@Column(unique = true)
 	private String mobile;
 	
+
 //	@Enumerated(value = EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
 	private UserRoleType role;

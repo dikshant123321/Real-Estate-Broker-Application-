@@ -25,7 +25,6 @@ import com.brokerApplication.services.BillingService;
 import com.brokerApplication.services.CustomerService;
 import com.brokerApplication.services.DealService;
 import com.brokerApplication.services.PropertyService;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -49,7 +48,7 @@ public class CustomerController implements CustomerControllerInterface{
 	@Override
 	@PostMapping("/customers/signup")
 	public ResponseEntity<Customer> createCustomerAccount(@Valid @RequestBody Customer customer) {
-		
+
 		Customer newCustomer = cs.addCustomer(customer);
 		return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
 		
@@ -58,7 +57,7 @@ public class CustomerController implements CustomerControllerInterface{
 	@Override
 	@GetMapping("/customers/{customerId}")
 	public ResponseEntity<Customer> viewCustomerProfileById(@PathVariable Integer customerId, @RequestParam String Key){
-		
+
 		as.Auth(customerId,Key);
 		return new  ResponseEntity<Customer>(cs.viewCustomerById(customerId),HttpStatus.OK);
 		
@@ -132,9 +131,8 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 	
 	@Override
-	@PostMapping("/customers/editDeal")
-	public ResponseEntity<Deal> editDealOfferFromCustomerByDealId(@PathVariable Integer dealId,@Valid @RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
-		
+	@PostMapping("/customers/editDeal/{dealId}")
+	public ResponseEntity<Deal> editDealOfferFromCustomerByDealId(@PathVariable Integer dealId,@RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
 		as.Auth(customerOffer.getCustomerId(),Key);
 		return new ResponseEntity<Deal>(ds.editDealOfferFromCustomerByDealId(dealId, customerOffer),HttpStatus.OK);
 		
@@ -170,7 +168,7 @@ public class CustomerController implements CustomerControllerInterface{
 	@Override
 	@GetMapping("customer/{customerId}/notification")
 	public ResponseEntity<CustomerNotification> seeCustomerNotificationByBy(@PathVariable Integer customerId, @RequestParam Integer notificationId,
-			String Key) {
+			@RequestParam String Key) {
 		
 		as.Auth(customerId, Key);
 		CustomerNotification customerNotification = cs.seeCustomerNotificationByBy(customerId, notificationId);		

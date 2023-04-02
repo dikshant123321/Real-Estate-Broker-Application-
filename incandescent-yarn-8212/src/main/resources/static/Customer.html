@@ -1,10 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./customer.css">
 </head>
 <body>
-	heelo customer page
+    <nav>
+      <div>
+        <img src="https://i.ibb.co/yRgdNNR/Estate-Explorer-Logo.png" alt="">
+      </div>
+      <h3>Estate Explorer</h3>
+      <button>Log Out</button>
+    </nav>
+    <div class="container">
+        <div class="tab">
+            <h1 style="text-align: center;">My Options</h1>
+            <button class="tablinks" onclick="openTab(event, 'tab1')">Tab 1</button>
+            <button class="tablinks" onclick="tab2(event)">viewCustomerProfileById</button>
+            <button class="tablinks" onclick="openTab(event, 'tab3')">editCustomerProfile</button>
+            <button class="tablinks" onclick="openTab(event, 'tab4')">deleteCustomerAccountById</button>
+            <button class="tablinks" onclick="openTab(event, 'tab5')">viewAllProptiesByCustomerId</button>
+            <button class="tablinks" onclick="openTab(event, 'tab6')">viewAllDealsByCustomerId</button>
+            <button class="tablinks" onclick="openTab(event, 'tab7')">viewCustomerPropertyById</button>
+            <button class="tablinks" onclick="openTab(event, 'tab8')">seeCustomerNotificationByBy</button>
+            <button class="tablinks" onclick="openTab(event, 'tab9')">viewPropertyById</button>
+            <button class="tablinks" onclick="openTab(event, 'tab10')">viewListOfProperties</button>
+            <button class="tablinks" onclick="openTab(event, 'tab11')">addDealOfferFromCustomer</button>
+            <button class="tablinks" onclick="openTab(event, 'tab12')">editDealOfferFromCustomerByDealId</button>
+            <button class="tablinks" onclick="openTab(event, 'tab13')">acceptDealForCustomer</button>
+            <button class="tablinks" onclick="openTab(event, 'tab14')">rejectDealForCustomer</button>
+            <button class="tablinks" onclick="openTab(event, 'tab15')">payBillForDeal</button>
+        </div>
+        <div id="box">
+            <h1 style="text-align: center;">Provide required parameter.</h1>
+			  <div id="tab3" class="tabcontent">
+				<form action="">
+                    <label for="username">username</label>
+                    <input name="username" type="text" placeholder="username" >
+                    <label for="email">email</label>
+                    <input name="email" type="text" placeholder="email" >
+                    <label for="mobile">mobile</label>
+                    <input name="mobile" type="text" placeholder="mobile" >
+                    <label for="city">city</label>
+                    <input name="city" type="text" placeholder="city" >
+                    <label for="password">password</label>
+                    <input name="password" type="text" placeholder="password" >
+                    <label for="fullname">Fullname</label>
+                    <input name="fullname" type="text" placeholder="Fullname" >
+                    <input type="submit">
+                </form>
+			  </div>
+			  <div id="tab7" class="tabcontent">
+                <form onsubmit="tab7(event)">
+                     <label for="pid">Property Id</label>
+                     <input name="pid" type="Number" placeholder="Property Id">
+                     <input type="submit">
+                </form>
+             </div>
+              <div id="tab8" class="tabcontent">
+                <form onsubmit="tab8(event)">
+                     <label for="nid">Notification Id</label>
+                     <input name="nid" type="Number" >
+                     <input type="submit">
+                </form>
+              </div>
+              <div id="tab9" class="tabcontent">
+                <form onsubmit="tab9(event)">
+                     <label for="pid">Property Id</label>
+                     <input name="pid" type="Number" placeholder="Property Id">
+                     <input type="submit">
+                </form>
+             </div>
+			  <div id="tab11" class="tabcontent">
+				   <form onsubmit="tab11(event)">
+
+                        <label for="deadcost">dealCost</label>
+						<input name="deadcost" type="Number" placeholder="dealCost">
+                        <label for="deadtype">dealType</label>
+						<select name="deadtype" >
+							<option value="Sell">Sell<option>
+							<option value="Buy">Buy<option>
+						</select>
+                        <label for="propertyid">propertyId</label>
+						<input name="propertyid" type="Number" placeholder="propertyId">
+                        <label for="brokerid">brokerId</label>
+						<input name="brokerid" type="Number" placeholder="brokerId">
+                        <label for="startperiod">startPeriod</label>
+						<input name="startperiod" type="text" placeholder="startPeriod">
+                        <label for="endperiod">endPeriod</label>
+						<input name="endperiod" type="text" placeholder="endPeriod">
+						<input type="submit">
+				</form>
+			  </div>
+			  <div id="tab12" class="tabcontent">
+				   <form onsubmit="tab12(event)">
+                        <label for="dealid">dealid</label>
+						<input name="dealid" type="Number" placeholder="dealid">
+                        <label for="dealCost">dealCost</label>
+						<input name="dealCost" type="Number" placeholder="dealCost">
+                        <label for="dealType">dealType</label>
+						<select name="dealType" >
+							<option value="Sell">Sell<option>
+							<option value="Buy">Buy<option>
+						</select>
+                        <label for="propertyId">propertyId</label>
+						<input name="propertyId" type="Number" placeholder="propertyId">
+                        <label for="brokerId">brokerId</label>
+						<input name="brokerId" type="Number" placeholder="brokerId">
+                        <label for="startPeriod">startPeriod</label>
+						<input name="startPeriod" type="text" placeholder="startPeriod">
+                        <label for="endPeriod">endPeriod</label>
+						<input name="endPeriod" type="text" placeholder="endPeriod">
+						<input type="submit">
+				</form>
+			  </div>
+			  <div id="tab13" class="tabcontent">
+				   <form onsubmit="tab13(event)">
+                        <label for="dealid">dealid</label>
+						<input name="dealid" type="Number" placeholder="dealid">
+						<input type="submit">
+				</form>
+			  </div>
+			  <div id="tab14" class="tabcontent">
+				   <form onsubmit="tab14(event)">
+                        <label for="dealid">dealid</label>
+						<input name="dealid" type="Number" placeholder="dealid">
+						<input type="submit">
+				</form>
+			  </div>
+			  <div id="tab15" class="tabcontent">
+				   <form onsubmit="tab15(event)">
+                        <label for="dealid">dealid</label>
+						<input name="dealid" type="Number" placeholder="dealid">
+                        <label for="cardno">cardno</label>
+						<input name="cardno" type="Number" placeholder="cardnumber">
+                        <label for="cvv">cvv</label>
+						<input name="cvv" type="Number" placeholder="cvv">
+                        <label for="cardholdername">cardholdername</label>
+						<input name="cardholdername" type="text" placeholder="CardHolderName">
+                        <label for="paymentamount">paymentamount</label>
+						<input name="paymentamount" type="Number" placeholder="paymentamount">
+                        <label for="expiredate">expiredate</label>
+						 <input name="expiredate" type="text" placeholder="expiredate">
+						<input type="submit">
+				</form>
+			  </div>
+
+        </div>
+        <div class="showdiv" id="demo"> 
+        </div>
+    </div>
 </body>
 </html>
+<script src="./customer.js"> </script>
+
+<!-- // window.onload = function() {
+//     var i, tabcontent, tablinks;
+//   console.log("Page loaded!");
+
+
+//     // Hide all tab content
+//     tabcontent = document.getElementsByClassName("tabcontent");
+//     for (i = 0; i < tabcontent.length; i++) {
+//         tabcontent[i].style.display = "none";
+//     }
+
+    
+//     // Deactivate all tab buttons
+//     tablinks = document.getElementsByClassName("tablinks");
+//     for (i = 0; i < tablinks.length; i++) {
+//         tablinks[i].className = tablinks[i].className.replace(" active", "");
+//     }
+
+
+//     // Show the selected tab content and activate the corresponding tab button
+//     document.getElementById(tabName).style.display = "block";
+//     evt.currentTarget.className += " active";
+
+// }; -->
+
