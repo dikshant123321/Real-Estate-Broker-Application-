@@ -20,7 +20,7 @@ public interface BrokerControllerInterface {
 	public ResponseEntity<Broker> registerBrokerHandler(@RequestBody Broker broker);
 	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer id,@RequestParam String key);
 	public ResponseEntity<Broker> updateBrokerByIdHandler(@PathVariable Integer id, Broker broker);
-	public ResponseEntity<Broker> deleteBrokerByIdHandler(@PathVariable Integer id);
+//	public ResponseEntity<Broker> deleteBrokerByIdHandler(@PathVariable Integer id);
 	public ResponseEntity<BrokerNotification> seeBrokerNotificationById(@PathVariable Integer brokerId, @RequestParam Integer notificationId,@RequestHeader("Auth") String key);
 
 	//property.service

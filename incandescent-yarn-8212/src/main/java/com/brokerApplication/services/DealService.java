@@ -19,6 +19,7 @@ public interface DealService {
 	
 	//admin use
 	public List<Deal> getAllDeals();
+	public Deal getDealById(Integer dealId);
 	
 	//broker use
 	public Deal setDealOfferFromBroker(BrokerOffer brokerOffer);

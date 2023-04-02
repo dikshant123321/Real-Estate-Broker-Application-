@@ -27,17 +27,19 @@ import com.brokerApplication.repositorys.DealRepo;
 public class DealServiceImpl implements DealService{
 	
 	@Autowired
-	DealRepo dr;
+	private DealRepo dr;
 	
 	@Autowired
-	PropertyService ps;
+	private PropertyService ps;
 	
 	@Autowired
-	CustomerService cs;
+	private CustomerService cs;
 	
 	@Autowired
-	BrokerServices bs;
+	private BrokerServices bs;
 	
+	@Autowired
+	private PropertyScheduleService pss;
 
 	@Override
 	public Deal getDealbyID(Integer dealid) {
@@ -46,6 +48,12 @@ public class DealServiceImpl implements DealService{
 		
 	}
 
+	@Override
+	public Deal getDealById(Integer dealId) {
+		
+		return dr.findById(dealId).orElseThrow(()->new DealException("No Deal is available with Id: "+dealId));
+		
+	}
 	
 	@Override
 	public List<Deal> getAllDeals() {
@@ -92,6 +100,7 @@ public class DealServiceImpl implements DealService{
 		        
 		        if(customerOffer.getEndPeriod().isBefore(customerOffer.getStartPeriod())) throw new DealException("The end period for renting the property is before the start period, but it must be after the start period.");
 		        
+		        pss.checkIsPropertyScheduledByPropertyIdAndBetweenStartDateAndEndDate(property.getPropertyId(), customerOffer.getStartPeriod(), customerOffer.getEndPeriod());
 		}
 		
 		Deal deal = new Deal();
@@ -179,6 +188,7 @@ public class DealServiceImpl implements DealService{
 		        
 		        if(customerOffer.getEndPeriod().isBefore(customerOffer.getStartPeriod())) throw new DealException("The end period for renting the property is before the start period, but it must be after the start period.");
 		        
+		        pss.checkIsPropertyScheduledByPropertyIdAndBetweenStartDateAndEndDate(property.getPropertyId(), customerOffer.getStartPeriod(), customerOffer.getEndPeriod());
 		}
 		
 		deal.setDealCost(customerOffer.getDealCost());
@@ -383,8 +393,8 @@ public class DealServiceImpl implements DealService{
 		Property property = ps.viewPropertyById(brokerOffer.getPropertyId());
 		if(!deal.getProperty().equals(property)) throw new DealException("No Deal with Id: "+deal.getDealid()+" contains Property with Id: "+property.getPropertyId());
 		if(!property.getIsAvailable()) throw new DealException("Property not avaliable for sale or rest");
-		
 		isPropertySuitableForDeal(property, deal.getDealType());
+		pss.checkIsPropertyScheduledByPropertyIdAndBetweenStartDateAndEndDate(property.getPropertyId(), deal.getRentStartPeriod(), deal.getRentEndPeriod());
 		
 		deal.setDealStatus(DealStatus.PAYMENT_PENDING);
 		

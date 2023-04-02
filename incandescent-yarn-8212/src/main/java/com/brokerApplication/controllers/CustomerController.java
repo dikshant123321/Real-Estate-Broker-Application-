@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ import com.brokerApplication.services.CustomerService;
 import com.brokerApplication.services.DealService;
 import com.brokerApplication.services.PropertyService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 
 @RestController
 public class CustomerController implements CustomerControllerInterface{
@@ -46,7 +47,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/signup")
-	public ResponseEntity<Customer> createCustomerAccount(@RequestBody Customer customer) {
+	public ResponseEntity<Customer> createCustomerAccount(@Valid @RequestBody Customer customer) {
 		
 		Customer newCustomer = cs.addCustomer(customer);
 		return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
@@ -64,7 +65,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/edit")
-	public ResponseEntity<Customer> editCustomerProfile(@RequestBody Customer customer, @RequestParam String Key) {
+	public ResponseEntity<Customer> editCustomerProfile(@Valid @RequestBody Customer customer, @RequestParam String Key) {
 		
 		as.Auth(customer.getUserId(),Key);
 		return new  ResponseEntity<Customer>(cs.editCustomer(customer),HttpStatus.OK);
@@ -123,7 +124,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/addDeal")
-	public ResponseEntity<Deal> addDealOfferFromCustomer(@RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
+	public ResponseEntity<Deal> addDealOfferFromCustomer(@Valid @RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
 		
 		as.Auth(customerOffer.getCustomerId(),Key);
 		return new ResponseEntity<Deal>(ds.addDealOfferFromCustomer(customerOffer),HttpStatus.OK);
@@ -131,7 +132,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/editDeal")
-	public ResponseEntity<Deal> editDealOfferFromCustomerByDealId(@PathVariable Integer dealId,@RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
+	public ResponseEntity<Deal> editDealOfferFromCustomerByDealId(@PathVariable Integer dealId,@Valid @RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
 		
 		as.Auth(customerOffer.getCustomerId(),Key);
 		return new ResponseEntity<Deal>(ds.editDealOfferFromCustomerByDealId(dealId, customerOffer),HttpStatus.OK);
@@ -158,7 +159,7 @@ public class CustomerController implements CustomerControllerInterface{
 	
 	@Override
 	@PostMapping("/customers/payBill")
-	public ResponseEntity<Deal> payBillForDeal(@RequestBody PaymentDetails paymentDetails, @RequestParam String Key) {
+	public ResponseEntity<Deal> payBillForDeal(@Valid @RequestBody PaymentDetails paymentDetails, @RequestParam String Key) {
 		
 		as.Auth(paymentDetails.getCustomerId(), Key);
 		return new ResponseEntity<Deal>(bls.payBillForDeal(paymentDetails) ,HttpStatus.OK);

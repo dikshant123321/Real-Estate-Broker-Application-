@@ -33,7 +33,7 @@ public class PropertyServiceImple implements PropertyService{
 	private CustomerService cs;
 	
 	@Autowired
-	private PropertyScheduleRepository psr;
+	private PropertyScheduleService ps;
 	
 	@Override
 	public Property addProperty(Property property, Integer brokerId) {
@@ -103,8 +103,6 @@ public class PropertyServiceImple implements PropertyService{
 	@Override
 	public void rentPropertyById(Deal deal) {
 		
-		
-		
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 		
 		Property property = deal.getProperty();
@@ -127,6 +125,9 @@ public class PropertyServiceImple implements PropertyService{
 		
 		long endDelay = ChronoUnit.MINUTES.between(deal.getRentEndPeriod(), LocalDate.now())*60;
         
+		//adding property schedule
+		PropertySchedule propertySchedule = ps.markPropertyScheduled(new PropertySchedule(property.getPropertyId(), deal.getRentStartPeriod(), deal.getRentEndPeriod(), PropertyStatus.RESERVED));
+		
 		scheduler.schedule(()->{
 			 //tasks to be done on ending day
         	cs.removeCustomerPropertyById(deal.getDealid(), deal.getProperty().getPropertyId());
@@ -136,10 +137,11 @@ public class PropertyServiceImple implements PropertyService{
         	property.setCustomer(null);
         	
         	propertyRepository.save(property);
+        	
+        	//removing property schedule
+        	ps.removePropertySchedule(propertySchedule.getPropertyId());
     		
 		}, endDelay, TimeUnit.SECONDS);
-        
-		psr.save(new PropertySchedule(property.getPropertyId(), deal.getRentStartPeriod(), deal.getRentEndPeriod(), PropertyStatus.RESERVED));
 		
 	}
 
