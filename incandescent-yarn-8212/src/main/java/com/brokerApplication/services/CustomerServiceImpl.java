@@ -267,9 +267,8 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		Customer customer = viewCustomerById(customerId);
 		
-		customer.getNotifications().add(customerNotification);
-		
 		cr.save(customer);
+		customer.getNotifications().add(customerNotification);
 		
 	}
 	
