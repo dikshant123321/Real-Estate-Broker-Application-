@@ -27,7 +27,7 @@
             <button class="tablinks" onclick="openTab(event, 'tab7')">viewCustomerPropertyById</button>
             <button class="tablinks" onclick="openTab(event, 'tab8')">seeCustomerNotificationByBy</button>
             <button class="tablinks" onclick="openTab(event, 'tab9')">viewPropertyById</button>
-            <button class="tablinks" onclick="openTab(event, 'tab10')">viewListOfProperties</button>
+            <button class="tablinks" onclick="tab10(event)">viewListOfProperties</button>
             <button class="tablinks" onclick="openTab(event, 'tab11')">addDealOfferFromCustomer</button>
             <button class="tablinks" onclick="openTab(event, 'tab12')">editDealOfferFromCustomerByDealId</button>
             <button class="tablinks" onclick="openTab(event, 'tab13')">acceptDealForCustomer</button>
@@ -81,8 +81,8 @@
 						<input name="deadcost" type="Number" placeholder="dealCost">
                         <label for="deadtype">dealType</label>
 						<select name="deadtype" >
-							<option value="Sell">Sell<option>
-							<option value="Buy">Buy<option>
+							<option value="RENT">RENT<option>
+							<option value="BUY">BUY<option>
 						</select>
                         <label for="propertyid">propertyId</label>
 						<input name="propertyid" type="Number" placeholder="propertyId">
@@ -103,8 +103,8 @@
 						<input name="dealCost" type="Number" placeholder="dealCost">
                         <label for="dealType">dealType</label>
 						<select name="dealType" >
-							<option value="Sell">Sell<option>
-							<option value="Buy">Buy<option>
+							<option value="RENT">RENT<option>
+							<option value="BUY">BUY<option>
 						</select>
                         <label for="propertyId">propertyId</label>
 						<input name="propertyId" type="Number" placeholder="propertyId">

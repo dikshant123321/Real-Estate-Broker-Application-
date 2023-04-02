@@ -226,7 +226,7 @@ function tab9(event){
 		     .then(response => response.json())
 		     .then(data => {
 				if(data.status==undefined){
-					document.getElementById("demo").innerHTML = `<pre>${JSON.stringify(data)}</pre>`; 
+					document.getElementById("demo").innerHTML = `<pre>${JSON.stringify(data,null,2)}</pre>`; 
 				}
 				else{
 					alert(data.message);
@@ -244,7 +244,7 @@ function tab10(event){
 		     .then(response => response.json())
 		     .then(data => {
 				if(data.status==undefined){
-					document.getElementById("demo").innerHTML = `<pre>${JSON.stringify(data)}</pre>`; 
+					document.getElementById("demo").innerHTML = `<pre>${JSON.stringify(data,null,2)}</pre>`; 
 				}
 				else{
 					alert(data.message);
