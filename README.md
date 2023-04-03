@@ -25,14 +25,14 @@ Deal Module<br>
 <h1>Features</h1>
 <p>Broker and Customers Autentication with session unique key</p>
 <h3>I.Broker Function</h3>
-<p>1.Broker can Register property ,update Property ,Delete property,sell,and Rent property</p>
-<p>2.Broker can register broker update and delete broker  </p>
+<p>1. Broker can Register property ,update Property ,Delete property,sell,and Rent property</p>
+<p>2. Broker can register broker update and delete broker  </p>
 
 <h3>II.Customers Function</h3>
-<p>Customer can register himself on the platform </p>
-<p>Customer can view property  </p>
-<p>Customer can book property  </p>
-<p>Customer can buy propert  </p>
+<p>1. Customer can register himself </p>
+<p>2. Customer can view property  </p>
+<p>3. Customer can book property  </p>
+<p>4.Customer can buy propert  </p>
 
 <h1>Tech Stack</h1>
 <p>Java</p>
