@@ -25,10 +25,8 @@ Deal Module<br>
 <h1>Features</h1>
 <p>Broker and Customers Autentication with session unique key</p>
 <h3>I.Broker Function</h3>
-<p>Broker is the main role in Entire Application</p>
-<p>Broker has the access of entire Application like </p>
-<p>(a).Broker can Register property ,update Property ,Delete property,sell,and Rent property</p>
-<p>(b).Broker can register broker update and delete broker  </p>
+<p>1.Broker can Register property ,update Property ,Delete property,sell,and Rent property</p>
+<p>2.Broker can register broker update and delete broker  </p>
 
 <h3>II.Customers Function</h3>
 <p>Customer can register himself on the platform </p>
@@ -56,11 +54,11 @@ Deal Module<br>
 <p>server.port=8088</p>
 
 
-<p>spring.datasource.url=jdbc:mysql://localhost:3306/dbName</p>
+<p>spring.datasource.url=jdbc:mysql://localhost:3306/DatabaseName</p>
 <p>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver</p>
 <p>spring.datasource.username=root</p>
 <p>spring.datasource.password=root</p>
-<p>spring.mvc.pathmatch.matching-strategy=ANT_PATH_MATCHER</p>
+
 <h1>Api Root EndPoints</h1>
 <p>http://localhost:8088/</p>
 <p>http://localhost:8088/swagger-ui/index.html</p>
