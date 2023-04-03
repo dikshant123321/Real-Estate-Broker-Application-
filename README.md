@@ -16,7 +16,7 @@ Built application during the construct week at [Masai School](https://masaischoo
 
 
 <h1>Modules</h1>
-LogIn Module<br>
+Login Module<br>
 Customer Module<br>
 Broker Module<br>
 Property Module<br>
