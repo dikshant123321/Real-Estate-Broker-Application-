@@ -48,7 +48,7 @@ Deal Module<br>
 <p>Dikshant Deogade</p>
 
 
-<h1>Installation And Run</h1>
+<h1>Database Connection</h1>
 <p>Before Running The Api Server You Should  Update the database config Inside The Application.properies file</p>
 <p>Update The port number,username and password</p>
 <p>server.port=8088</p>
