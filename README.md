@@ -16,11 +16,11 @@ Built application during the construct week at [Masai School](https://masaischoo
 
 
 <h1>Modules</h1>
-LogIn module
-Customer Module
-Broker module
-Property module
-Deal module
+LogIn Module<br>
+Customer Module<br>
+Broker Module<br>
+Property Module<br>
+Deal Module<br>
 
 <h1>Features</h1>
 <p>Broker and Customers Autentication with session unique key</p>
