@@ -50,7 +50,7 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@PutMapping("/brokers/{Id}")
+	@PutMapping("/brokers/{Id}/edit")
 	@ResponseBody
 	public ResponseEntity<Broker> updateBrokerByIdHandler(@PathVariable Integer id, @Valid @RequestBody Broker broker){
 		Broker newbroker = brokerServices.editBroker(broker);
@@ -65,8 +65,8 @@ public class BrokerController implements BrokerControllerInterface {
 //	}
 	
 	@Override
-	@PostMapping("/brokers/property/{brokerid}")
-	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer brokerid,@RequestParam String key,@RequestBody Property property) throws AuthorizationException {
+	@PostMapping("/brokers/{brokerid}/property/add")
+	public ResponseEntity<Property> registerPropertyBrokerHandler(@PathVariable Integer brokerid,@RequestParam String key,@Valid @RequestBody Property property) throws AuthorizationException {
 		as.Auth(brokerid, key);	
 		System.out.println(property);
 		Property p = ps.addProperty(property, brokerid);
@@ -76,8 +76,8 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 
 	@Override
-	@PostMapping("/brokers/deals")
-	public ResponseEntity<Deal> negotiateDeal(@RequestParam String key,@RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
+	@PostMapping("/brokers/deals/negotiate")
+	public ResponseEntity<Deal> negotiateDeal(@RequestParam String key,@Valid @RequestBody BrokerOffer brokerOffer)throws AuthorizationException {
 		as.Auth(brokerOffer.getBrokerId(),key);
 		return new ResponseEntity<Deal>(ds.setDealOfferFromBroker(brokerOffer),HttpStatus.OK);
 	}
@@ -97,7 +97,7 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@GetMapping("/brokers/{brokerId}")
+	@GetMapping("/brokers/profile/{brokerId}")
 	public ResponseEntity<Broker> getBrokerByIdHandler(@PathVariable Integer brokerId,@RequestParam String key) throws AuthorizationException{
 		as.Auth(brokerId, key);	
 		Broker broker = brokerServices.viewBrokerById(brokerId);
@@ -105,7 +105,7 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@GetMapping("/brokers/allProperties/{brokerid}")
+	@GetMapping("/brokers/{brokerid}/allProperties")
 	public ResponseEntity<List<Property>> getAllPropertiesOfBrokerHandler(@PathVariable Integer brokerid,@RequestParam String key)
 			throws AuthorizationException {
 	
@@ -115,7 +115,7 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@GetMapping("/brokers/deals/{brokerId}")
+	@GetMapping("/brokers/{brokerId}/deals")
 	public ResponseEntity<List<Deal>> getAllDealsOfBrokerHandler(@PathVariable Integer brokerId,@RequestParam String key)
 			throws AuthorizationException {
 		as.Auth(brokerId, key);	
@@ -123,7 +123,7 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	@GetMapping("/brokers/property/{brokerId}")
+	@GetMapping("/brokers/{brokerId}/property")
 	public ResponseEntity<Property> getBrokerPropertyById(@PathVariable Integer brokerId,  @RequestParam String key, @RequestParam Integer propertyId) {
 		
 		as.Auth(brokerId, key);
@@ -152,7 +152,8 @@ public class BrokerController implements BrokerControllerInterface {
 	}
 	
 	@Override
-	public ResponseEntity<Deal> getDealOfBrokerByIdHandler(Integer brokerId, String key, Integer dealId) {
+	@GetMapping("/broker/{brokerId}/deal/{dealId}")
+	public ResponseEntity<Deal> getDealOfBrokerByIdHandler(@PathVariable Integer brokerId, @RequestParam String key, @PathVariable Integer dealId) {
 		as.Auth(brokerId, key);
 		return new ResponseEntity<Deal>(ds.getDealById(dealId), HttpStatus.OK);
 	}

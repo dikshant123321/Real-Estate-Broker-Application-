@@ -378,9 +378,9 @@ public class DealServiceImpl implements DealService{
 		
 		// notify customer
 		String notificationMessage = broker.getBrokerName()+" offering you a deal.";
-		CustomerNotification customerNotification = new CustomerNotification(broker.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
+		CustomerNotification customerNotification = new CustomerNotification(customer.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
 		
-		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
+		cs.sendNotificationToCustomerAboutDeal(customer.getUserId(), customerNotification);
 		
 		return updatedDeal;
 
@@ -419,7 +419,7 @@ public class DealServiceImpl implements DealService{
 		
 		//--> notify the customer "deal got accepted proceed to pay."
 		String notificationMessage = broker.getBrokerName()+" accepted your deal, now proceed to payment.";
-		CustomerNotification customerNotification = new CustomerNotification(broker.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
+		CustomerNotification customerNotification = new CustomerNotification(customer.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
 		
 		cs.sendNotificationToCustomerAboutDeal(customer.getUserId(), customerNotification);
 		
@@ -458,9 +458,8 @@ public class DealServiceImpl implements DealService{
 		//--> notify customer "deal got rejected by the broker"
 		
 		String notificationMessage = broker.getBrokerName()+" rejected your deal offer.";
-		CustomerNotification customerNotification = new CustomerNotification(broker.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
-		
-		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
+		CustomerNotification customerNotification = new CustomerNotification(customer.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessage);
+		cs.sendNotificationToCustomerAboutDeal(customer.getUserId(), customerNotification);
 		
 		return updatedDeal;
 	}
@@ -513,8 +512,8 @@ public class DealServiceImpl implements DealService{
 		bs.sendNotificationToBrokerAboutDeal(broker.getUserId(), brokerNotification);
 		
 		String notificationMessageForCustomer = "Deal successful between you and "+broker.getBrokerName();
-		CustomerNotification customerNotification = new CustomerNotification(broker.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessageForCustomer);
-		cs.sendNotificationToCustomerAboutDeal(broker.getUserId(), customerNotification);
+		CustomerNotification customerNotification = new CustomerNotification(customer.getUserId(), deal.getDealid(), LocalDateTime.now(), notificationMessageForCustomer);
+		cs.sendNotificationToCustomerAboutDeal(customer.getUserId(), customerNotification);
 		
 		deal.setDealStatus(DealStatus.FULFILLED);
 		

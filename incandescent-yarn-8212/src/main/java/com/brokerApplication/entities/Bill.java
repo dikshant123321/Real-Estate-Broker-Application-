@@ -26,7 +26,7 @@ public class Bill {
 	
 	@OneToOne
 	private Deal deal;
-	private Double TotalPayableAmout;
+	private Double totalPayableAmout;
 	
 	@Enumerated(value = EnumType.STRING)
 	private BillStatus billStatus;
@@ -35,9 +35,15 @@ public class Bill {
 		
 		this.deal = deal;
 		
+		billStatus = BillStatus.PENDING;
+		
 		if(deal.getDealType() == DealType.RENT) {
 			
-			TotalPayableAmout = deal.getDealCost() * (ChronoUnit.DAYS.between(deal.getRentStartPeriod(), deal.getRentEndPeriod()));
+			totalPayableAmout = deal.getDealCost() * (ChronoUnit.DAYS.between(deal.getRentStartPeriod(), deal.getRentEndPeriod()));
+			
+		}else {
+			
+			totalPayableAmout = deal.getDealCost();
 			
 		}
 	}
@@ -51,13 +57,13 @@ public class Bill {
 		if (getClass() != obj.getClass())
 			return false;
 		Bill other = (Bill) obj;
-		return Objects.equals(TotalPayableAmout, other.TotalPayableAmout) && Objects.equals(billId, other.billId)
+		return Objects.equals(totalPayableAmout, other.totalPayableAmout) && Objects.equals(billId, other.billId)
 				&& billStatus == other.billStatus && Objects.equals(deal, other.deal);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(TotalPayableAmout, billId, billStatus, deal);
+		return Objects.hash(totalPayableAmout, billId, billStatus, deal);
 	}
 	
 	

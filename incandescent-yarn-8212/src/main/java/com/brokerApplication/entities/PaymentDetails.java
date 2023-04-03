@@ -53,7 +53,7 @@ public class PaymentDetails {
 	@Min(value = 0)
 	private Double paymentAmount;
 	
-	@JsonFormat(pattern = "MM-yyyy")
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	@Future
 	private LocalDate expiryDate;
 	
