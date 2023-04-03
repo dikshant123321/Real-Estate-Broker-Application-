@@ -38,12 +38,10 @@ Deal Module<br>
 
 <h1>Tech Stack</h1>
 <p>Java</p>
-<p>Spring framework</p>
 <p>Spring Boot</p>
 <p>Spring Data JPA</p>
-<p>Hibernate</p>
 <p>MySql</p>
-<p>Swagger</p>
+
 
 <h1>Contributer</h1>
 <p>Paramkusham Lokesh</p>
