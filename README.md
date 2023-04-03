@@ -2,7 +2,7 @@
 <h1>Real Estate Broker application</h1>
 
 <h2>Introduction</h2>
-<p>We have Developed the REST API for Real Estate Broker Application.This Api performs All the basic CRUD operation of our Application with user validation at every step.</p>
+<p>We have Developed the REST API for Real Estate Broker Application.This Api performs All the basic CRUD operation of our Application with user validation </p>
 
  There are two users of this system 
 <br>
