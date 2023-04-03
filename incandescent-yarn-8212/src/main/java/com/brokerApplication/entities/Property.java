@@ -65,12 +65,12 @@ public class Property {
 	@ManyToOne
 	@JoinColumn(name = "customer")
 	@JsonIgnore
-	Customer customer;
+	private Customer customer;
 	
 	@ManyToOne
 	@JoinColumn(name = "broker")
-//	@JsonIgnore
-	Broker broker;
+	@JsonProperty(access = Access.READ_ONLY)
+	private Broker broker;
 	
 	@AssertTrue(message = "Price fields are not satisfied, make sure to provide value of rentPricePerNight if propertyStatus is RENTABLE, salePrice if propertyStatus is SALEABLE, and both if the propertyStatus is SALEABLE_AND_RENTABLE.")
 	private boolean isValidRentDeal() {

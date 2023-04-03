@@ -32,5 +32,5 @@ public interface CustomerControllerInterface {
 	public ResponseEntity<Deal> acceptDealForCustomer(Integer dealId, Integer customerId, String Key);
 	public ResponseEntity<Deal> rejectDealForCustomer(Integer dealId, Integer customerId, String Key);
 	public ResponseEntity<Deal> payBillForDeal(PaymentDetails paymentDetails, String Key);
-	public ResponseEntity<Deal> deleteDealOfferForCustomer(Integer dealId, Integer customerId);
+	public ResponseEntity<Deal> deleteDealOfferForCustomer(Integer dealId, Integer customerId, String key);
 }

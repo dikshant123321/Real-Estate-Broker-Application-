@@ -180,8 +180,8 @@ public class BrokerServicesImpl implements BrokerServices{
 	public void sendNotificationToBrokerAboutDeal(Integer brokerId, BrokerNotification brokerNotification) {
 		
 		Broker broker = viewBrokerById(brokerId);
-		brokerDao.save(broker);
 		broker.getNotifications().add(brokerNotification);
+		brokerDao.save(broker);
 		
 	}
 	

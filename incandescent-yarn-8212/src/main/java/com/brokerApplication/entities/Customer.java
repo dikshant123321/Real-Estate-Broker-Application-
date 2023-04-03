@@ -29,7 +29,6 @@ public class Customer extends User{
 	@NotEmpty
 	@NotBlank
 	@NotNull
-	@Pattern(regexp = "^[a-zA-Z ]{3,25}$", message = "Customer's name's length should not be less than 3 and more than 25 characters")
 	private String CustomerName;
 	
 	@JsonIgnore

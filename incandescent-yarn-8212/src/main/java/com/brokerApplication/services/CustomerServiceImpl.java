@@ -1,10 +1,13 @@
 package com.brokerApplication.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.brokerApplication.entities.BrokerNotification;
 import com.brokerApplication.entities.Customer;
 import com.brokerApplication.entities.CustomerNotification;
 import com.brokerApplication.entities.Deal;
@@ -22,6 +25,9 @@ public class CustomerServiceImpl implements CustomerService{
 	@Autowired
 	private CustomerRepository cr;
 
+	@Autowired
+	private BrokerServices bs;
+	
 	@Autowired
 	private CustomerNotificationRepository cnr;
 	
@@ -229,8 +235,10 @@ public class CustomerServiceImpl implements CustomerService{
 			
 			if(d.getDealid() == dealId) {
 				
+				Deal deal = d;
 				customer.getListOfDeals().remove(d);
 				cr.save(customer);
+				bs.sendNotificationToBrokerAboutDeal(deal.getBroker().getUserId(), new BrokerNotification(deal.getBroker().getUserId(), dealId, LocalDateTime.now(), null));;
 				return d;
 				
 			}
@@ -267,8 +275,8 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		Customer customer = viewCustomerById(customerId);
 		
-		cr.save(customer);
 		customer.getNotifications().add(customerNotification);
+		cr.save(customer);
 		
 	}
 	

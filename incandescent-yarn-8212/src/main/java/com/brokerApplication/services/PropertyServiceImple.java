@@ -151,12 +151,12 @@ public class PropertyServiceImple implements PropertyService{
 		
 		Property property = deal.getProperty();
 		
-    	cs.addNewPropertyById(deal.getCustomer().getUserId(), property);
     	
 		property.setPropertyStatus(PropertyStatus.SOLD);
 		property.setIsAvailable(false);
 		property.setCustomer(deal.getCustomer());
 		
+		cs.addNewPropertyById(deal.getCustomer().getUserId(), property);
 		return propertyRepository.save(property);
 
 	}

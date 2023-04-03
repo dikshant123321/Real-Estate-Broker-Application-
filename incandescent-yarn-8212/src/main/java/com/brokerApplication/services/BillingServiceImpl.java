@@ -33,7 +33,7 @@ public class BillingServiceImpl implements BillingService {
 		
 		if(paymentDetails.getDealId() != bill.getDeal().getDealid()) throw new BillingException("Deal with Id "+paymentDetails.getDealId()+" passed with the payment deatils is not related to the one in the Bill.");
 		
-		if(paymentDetails.getPaymentAmount() != bill.getTotalPayableAmout()) throw new BillingException("Total amount which needs to be paid is "+bill.getTotalPayableAmout()+" but only receiving "+paymentDetails.getPaymentAmount());
+		if(((int)paymentDetails.getPaymentAmount().doubleValue() - (int)bill.getTotalPayableAmout().doubleValue()) != 0) throw new BillingException("Total amount which needs to be paid is "+bill.getTotalPayableAmout()+" but only receiving "+paymentDetails.getPaymentAmount());
 		
 		bill.setBillStatus(BillStatus.PAID);
 		

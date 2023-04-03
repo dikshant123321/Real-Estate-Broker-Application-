@@ -55,7 +55,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 	
 	@Override
-	@GetMapping("/customers/{customerId}")
+	@GetMapping("/customers/profile/{customerId}")
 	public ResponseEntity<Customer> viewCustomerProfileById(@PathVariable Integer customerId, @RequestParam String Key){
 
 		as.Auth(customerId,Key);
@@ -64,7 +64,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 	
 	@Override
-	@PostMapping("/customers/edit")
+	@PostMapping("/customers/profile/edit")
 	public ResponseEntity<Customer> editCustomerProfile(@Valid @RequestBody Customer customer, @RequestParam String Key) {
 		
 		as.Auth(customer.getUserId(),Key);
@@ -123,7 +123,7 @@ public class CustomerController implements CustomerControllerInterface{
 	}
 	
 	@Override
-	@PostMapping("/customers/addDeal")
+	@PostMapping("/customers/deal/addDeal")
 	public ResponseEntity<Deal> addDealOfferFromCustomer(@Valid @RequestBody CustomerOffer customerOffer, @RequestParam String Key) {
 		
 		as.Auth(customerOffer.getCustomerId(),Key);
@@ -185,7 +185,8 @@ public class CustomerController implements CustomerControllerInterface{
 
 	@Override
 	@DeleteMapping("customer/{customerId}/deal")
-	public ResponseEntity<Deal> deleteDealOfferForCustomer(@RequestParam Integer dealId,@PathVariable Integer customerId) {
+	public ResponseEntity<Deal> deleteDealOfferForCustomer(@RequestParam Integer dealId,@PathVariable Integer customerId, @RequestParam String key) {
+		as.Auth(customerId, key);
 		return new ResponseEntity<Deal>(cs.deleteCustomerDealById(customerId, dealId), HttpStatus.OK);
 	}
 		
